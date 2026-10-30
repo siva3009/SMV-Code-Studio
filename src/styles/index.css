@@ -29,3 +29,36 @@ html {
 button, input, select, textarea, a {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* TriCodeX Post-Hero Design System Tokens */
+:root {
+  --tcx-bg-primary: #09090B;
+  --tcx-bg-secondary: #0F0F12;
+  --tcx-surface: #15151A;
+  --tcx-surface-elevated: #1C1C22;
+  --tcx-border: rgba(255, 255, 255, 0.08);
+  --tcx-border-hover: rgba(204, 255, 0, 0.35);
+  --tcx-text-primary: #F4F4F6;
+  --tcx-text-secondary: #9CA3AF;
+  --tcx-accent-lime: #CCFF00;
+  --tcx-accent-lime-dim: #D4FF3F;
+}
+
+/* Utility classes for TriCodeX post-hero sections */
+.bg-tcx-primary { background-color: #09090B; }
+.bg-tcx-secondary { background-color: #0F0F12; }
+.bg-tcx-surface { background-color: #15151A; }
+.bg-tcx-elevated { background-color: #1C1C22; }
+.border-tcx-border { border-color: rgba(255, 255, 255, 0.08); }
+.text-tcx-primary { color: #F4F4F6; }
+.text-tcx-secondary { color: #9CA3AF; }
+.text-tcx-lime { color: #CCFF00; }
+.border-tcx-lime { border-color: #CCFF00; }
+
+/* 3D Perspective Card Stacking container */
+.perspective-1200 {
+  perspective: 1200px;
+}
+.preserve-3d {
+  transform-style: preserve-3d;
+}

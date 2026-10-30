@@ -307,7 +307,7 @@ export function SMVGrowthDashboard() {
           <div className="inline-flex items-center gap-3 mb-4">
             <div className="h-px w-12 bg-gradient-to-r from-transparent via-cyan-400 to-transparent"></div>
             <span className="text-cyan-400 text-sm font-medium tracking-wider uppercase" style={{ fontFamily: "'Inter', sans-serif" }}>
-              SMV Growth Dashboard
+              TriCodeX Growth Dashboard
             </span>
             <div className="h-px w-12 bg-gradient-to-r from-transparent via-cyan-400 to-transparent"></div>
           </div>

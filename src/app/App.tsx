@@ -1,44 +1,25 @@
-import { Hero } from './components/Hero';
-import { About } from './components/About';
-import { Services } from './components/Services';
-import { Portfolio } from './components/Portfolio';
-import { SMVGrowthDashboard } from './components/SMVGrowthDashboard';
-import { Process } from './components/Process';
-import { Testimonials } from './components/Testimonials';
-import { CallToAction } from './components/CallToAction';
-import { Footer } from './components/Footer';
 import { Navigation } from './components/Navigation';
+import { Hero } from './components/Hero';
+import { AboutManifesto } from './components/AboutManifesto';
+import { TeamTrio } from './components/TeamTrio';
+import { ServicesMatrix } from './components/ServicesMatrix';
+import { PortfolioStack } from './components/PortfolioStack';
+import { CapabilitiesBento } from './components/CapabilitiesBento';
+import { ProcessTimeline } from './components/ProcessTimeline';
+import { WhyTriCodeX } from './components/WhyTriCodeX';
+import { TechEcosystem } from './components/TechEcosystem';
+import { ConversionContact } from './components/ConversionContact';
+import { FooterTechnical } from './components/FooterTechnical';
 import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-// register the plugin once at startup
+// Register ScrollTrigger once at startup
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
   useEffect(() => {
-    // global section fade-in / slide-up + stagger
-    const sections: HTMLElement[] = gsap.utils.toArray('.gsap-section');
-    sections.forEach((section) => {
-      // animate all headings/paragraphs and any elements marked for staggering
-      const targets = section.querySelectorAll('h2, h3, p, .gsap-stagger');
-      gsap.from(targets, {
-        opacity: 0,
-        y: 50,
-        stagger: 0.12,
-        duration: 0.6,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 75%',
-          end: 'bottom 25%',
-          once: true,
-          // scroller is body by default; lenis scroll proxy is configured in main.tsx
-        }
-      });
-    });
-
-    // hero fade out on scroll so it blends into the next section
+    // Preserve existing hero fade out on scroll
     gsap.to('.hero-content', {
       opacity: 0,
       y: -50,
@@ -50,20 +31,50 @@ export default function App() {
         scrub: true
       }
     });
+
+    // Refresh ScrollTrigger once DOM has settled
+    const timeout = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 200);
+
+    return () => clearTimeout(timeout);
   }, []);
 
   return (
-    <div className="size-full">
+    <div className="w-full bg-[#09090B] text-[#F4F4F6] selection:bg-[#CCFF00] selection:text-[#09090B]">
+      {/* SECTION 00 — PROTECTED APPROVED HERO & NAVIGATION */}
       <Navigation />
       <Hero />
-      <About />
-      <Services />
-      <Portfolio />
-      <SMVGrowthDashboard />
-      <Process />
-      <Testimonials />
-      <CallToAction />
-      <Footer />
+
+      {/* SECTION 01 — ABOUT / EDITORIAL BRAND MANIFESTO */}
+      <AboutManifesto />
+
+      {/* SECTION 02 — THE TRIO / FOUNDING TEAM */}
+      <TeamTrio />
+
+      {/* SECTION 03 — INTERACTIVE SERVICES MATRIX */}
+      <ServicesMatrix />
+
+      {/* SECTION 04 — CINEMATIC 3D PORTFOLIO STACK & REPOSITORY CASE STUDIES */}
+      <PortfolioStack />
+
+      {/* SECTION 05 — TECHNICAL CAPABILITIES BENTO */}
+      <CapabilitiesBento />
+
+      {/* SECTION 06 — ENGINEERING PROCESS LIFECYCLE */}
+      <ProcessTimeline />
+
+      {/* SECTION 07 — WHY TRICODEX VALUE PROPOSITION */}
+      <WhyTriCodeX />
+
+      {/* SECTION 08 — INTERACTIVE TECHNOLOGY ECOSYSTEM */}
+      <TechEcosystem />
+
+      {/* SECTION 09 — CONVERSION PORTAL & SCOPING INQUIRY */}
+      <ConversionContact />
+
+      {/* SECTION 10 — TECHNICAL COLOPHON & FOOTER */}
+      <FooterTechnical />
     </div>
   );
 }

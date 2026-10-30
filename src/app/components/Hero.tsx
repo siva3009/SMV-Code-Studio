@@ -40,8 +40,8 @@ export function Hero() {
               animate={{ width: 48 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             ></motion.div>
-            <span className="px-4 py-1.5 rounded-full text-sm border border-white/20 bg-white/5 backdrop-blur-sm text-white/80" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400 }}>
-              Blog & articles
+            <span className="px-4 py-1.5 rounded-full text-sm border border-cyan-500/30 bg-cyan-500/10 backdrop-blur-sm text-cyan-300 font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>
+              TriCodeX • Product Engineering Studio
             </span>
             <motion.div 
               className="h-px w-12 bg-gradient-to-r from-transparent via-cyan-500 to-transparent"
@@ -52,26 +52,28 @@ export function Hero() {
           </motion.div>
           
           <motion.h1 
-            className="text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight text-white" 
-            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: '-0.02em' }}
+            className="text-4xl md:text-5xl lg:text-7xl mb-6 leading-tight text-white font-bold" 
+            style={{ fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em' }}
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
           >
-            Building Modern Websites
+            Engineering Tomorrow's
             <br />
-            for the Digital Future
+            <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent">
+              Digital Products
+            </span>
           </motion.h1>
         </motion.div>
         
         <motion.p 
-          className="text-base md:text-lg text-gray-400 mb-10 max-w-3xl mx-auto leading-relaxed" 
+          className="text-base md:text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed" 
           style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
-          Streamline your business's digital presence with our intuitive, scalable SaaS platform
+          TriCodeX builds high-performance web platforms and digital solutions through unique design systems, robust Python backends, and end-to-end full-stack craftsmanship.
         </motion.p>
         
         <motion.div 
@@ -80,23 +82,21 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <motion.button 
-            className="px-8 py-3 bg-white text-gray-900 rounded-full font-medium transition-all duration-300 hover:bg-gray-100 hover:shadow-lg hover:shadow-white/20" 
-            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500 }}
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.98 }}
+          <a
+            href="#contact" 
+            className="px-8 py-3.5 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 text-white rounded-full font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/40 hover:scale-105 inline-block" 
+            style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Start Your Project
-          </motion.button>
+          </a>
           
-          <motion.button 
-            className="px-8 py-3 bg-transparent rounded-full font-medium text-white border border-white/20 hover:border-cyan-500/50 hover:bg-white/5 transition-all duration-300 backdrop-blur-sm" 
-            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400 }}
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.98 }}
+          <a
+            href="#team" 
+            className="px-8 py-3.5 bg-white/5 rounded-full font-medium text-white border border-white/20 hover:border-cyan-400 hover:bg-white/10 transition-all duration-300 backdrop-blur-sm inline-block" 
+            style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            View Our Work
-          </motion.button>
+            Meet the Team
+          </a>
         </motion.div>
         
         <motion.div 
@@ -105,8 +105,8 @@ export function Hero() {
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1 }}
         >
-          <span className="text-sm text-white/60" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
-            SMV Code Studio
+          <span className="text-sm text-cyan-400/80 font-mono tracking-wider" style={{ fontFamily: "'Inter', sans-serif" }}>
+            TriCodeX — Mohammed Shameem • Sivaram • Vasiharan
           </span>
         </motion.div>
       </div>

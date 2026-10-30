@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 
 export function CallToAction() {
   return (
-    <section className="relative py-32 px-6 bg-black overflow-hidden">
+    <section id="contact" className="relative py-32 px-6 bg-black overflow-hidden gsap-section">
       {/* Dramatic background effects */}
       <div className="absolute inset-0">
         <motion.div 
@@ -117,13 +117,38 @@ export function CallToAction() {
           }}
         >
           {[
-            { icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', title: 'Email Us', info: 'hello@smvcode.studio', gradient: 'from-cyan-500/20 to-blue-600/20', borderColor: 'border-cyan-500/30', iconColor: 'text-cyan-400' },
-            { icon: 'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z', title: 'Call Us', info: '+1 (555) 123-4567', gradient: 'from-blue-600/20 to-purple-600/20', borderColor: 'border-blue-500/30', iconColor: 'text-blue-400' },
-            { icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z', title: 'Visit Us', info: 'San Francisco, CA', gradient: 'from-purple-600/20 to-pink-600/20', borderColor: 'border-purple-500/30', iconColor: 'text-purple-400' }
+            { 
+              icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', 
+              title: 'Email Us', 
+              info: 'smvcreators43@gmail.com', 
+              href: 'mailto:smvcreators43@gmail.com',
+              gradient: 'from-cyan-500/20 to-blue-600/20', 
+              borderColor: 'border-cyan-500/30', 
+              iconColor: 'text-cyan-400' 
+            },
+            { 
+              icon: 'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z', 
+              title: 'Call / WhatsApp', 
+              info: '+91 7305794294', 
+              href: 'tel:7305794294',
+              gradient: 'from-blue-600/20 to-purple-600/20', 
+              borderColor: 'border-blue-500/30', 
+              iconColor: 'text-blue-400' 
+            },
+            { 
+              icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z', 
+              title: 'Studio', 
+              info: 'TriCodeX Digital Lab', 
+              href: '#team',
+              gradient: 'from-purple-600/20 to-pink-600/20', 
+              borderColor: 'border-purple-500/30', 
+              iconColor: 'text-purple-400' 
+            }
           ].map((card, index) => (
-            <motion.div 
+            <motion.a 
               key={index}
-              className="rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 p-6 hover:border-cyan-500/50 transition-all duration-300"
+              href={card.href}
+              className="rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 p-6 hover:border-cyan-500/50 transition-all duration-300 block text-center group cursor-pointer"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { 
@@ -137,16 +162,16 @@ export function CallToAction() {
               }}
               whileHover={{ y: -5, scale: 1.02 }}
             >
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${card.gradient} border ${card.borderColor} flex items-center justify-center mb-4 mx-auto`}>
+              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${card.gradient} border ${card.borderColor} flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform duration-300`}>
                 <svg className={`w-6 h-6 ${card.iconColor}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={card.icon} />
                 </svg>
               </div>
               <h4 className="text-white font-semibold mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>{card.title}</h4>
-              <p className="text-gray-400 text-sm" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
+              <p className="text-cyan-400/90 text-sm font-medium group-hover:text-cyan-300 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
                 {card.info}
               </p>
-            </motion.div>
+            </motion.a>
           ))}
         </motion.div>
       </div>

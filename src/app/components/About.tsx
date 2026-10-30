@@ -86,8 +86,7 @@ export function About() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              SMV Code Studio is a creative web development agency specializing in crafting 
-              stunning, high-performance websites that captivate audiences and drive results.
+              <strong className="text-white font-medium">TriCodeX</strong> is an agile digital product studio driven by a powerhouse trio — <span className="text-cyan-400">Mohammed Shameem</span>, <span className="text-purple-400">Sivaram</span>, and <span className="text-blue-400">Vasiharan</span>. We specialize in engineering bespoke web applications, unique interactive UI/UX designs, and scalable backend platforms.
             </motion.p>
             <motion.p 
               className="text-base md:text-lg text-gray-400 mb-8 leading-relaxed" 
@@ -97,12 +96,11 @@ export function About() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              We combine cutting-edge technology with artistic vision to create digital 
-              experiences that stand out in today's competitive landscape. From interactive 
-              animations to seamless user experiences, every project is a masterpiece.
+              From complex full-stack problem solving to pixel-perfect design systems and high-throughput Python backends, we unite our complementary superpowers to turn daring concepts into production-ready reality.
             </motion.p>
-            <motion.button 
-              className="group px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/50 relative overflow-hidden" 
+            <motion.a 
+              href="#team"
+              className="group inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/50 relative overflow-hidden" 
               style={{ fontFamily: "'Inter', sans-serif" }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -111,9 +109,9 @@ export function About() {
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
             >
-              <span className="relative z-10">Learn More About Us</span>
+              <span className="relative z-10">Meet Our Team</span>
               <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </motion.button>
+            </motion.a>
           </motion.div>
           
           {/* Right: Animated Abstract Shapes */}

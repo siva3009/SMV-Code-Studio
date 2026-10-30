@@ -141,7 +141,7 @@ export function Testimonials() {
               <div className="relative z-10">
                 <div className="text-4xl text-cyan-500/40 mb-4 font-serif">"</div>
                 <p className="text-gray-300 leading-relaxed mb-6" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
-                  The team at SMV Code Studio delivered a stunning, modern website that elevated our brand presence and boosted engagement across the board.
+                  The team at TriCodeX delivered a stunning, modern website that elevated our brand presence and boosted engagement across the board.
                 </p>
                 <div className="flex items-center gap-4">
                   <img
