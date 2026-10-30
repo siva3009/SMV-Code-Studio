@@ -118,28 +118,28 @@ This document details the top 10 verified software engineering projects develope
 
 ---
 
-### 9. Geospatial Measurement Engine
-* **Repository**: [https://github.com/Shameem1105/Geospatial](https://github.com/Shameem1105/Geospatial)
-* **Contributors**: Mohammed Shameem (`Shameem1105`), Vasiharan (`VasiharanB`)
-* **Category**: Custom Software & GIS Engineering
-* **Technologies**: Python, GeoPandas, Shapely, Fiona, FastAPI / Flask, Leaflet
-* **Problem**: Civil engineers and land surveyors face spatial distortion errors and heavy manual processing times when calculating areas and boundary contours from heterogeneous KML and ESRI Shapefiles.
-* **Solution**: A production-grade geospatial microservice that ingests complex spatial geometry files, normalizes Coordinate Reference Systems (CRS), validates topological boundaries, and computes geodesic surface metrics.
+### 9. DeviceCensus (E-CODE-07)
+* **Repository**: [https://github.com/Shameem1105/DeviceCensus](https://github.com/Shameem1105/DeviceCensus)
+* **Lead Contributor**: Mohammed Shameem (`Shameem1105`)
+* **Category**: IoT Systems & Code Intelligence
+* **Technologies**: Python, SQL, FastMCP, SQLite, Docker, AST Parser, Pytest
+* **Problem**: IoT engineers and developers building Home Assistant integrations need to understand device protocols, sensor data retrieval, and error handling spread across 1,500+ manifests. General LLMs hallucinate counts or make unsupported assertions on large codebases.
+* **Solution**: Extracts Home Assistant Core source code into structured datasets and combines exact Python/SQL counting with evidence-backed source-code retrieval to provide traceable answers linked to original files.
 * **Key Engineering Highlights**:
-  * CRS-aware automatic coordinate projection transformations (WGS84, UTM zones).
-  * Geodesic polygon area calculations resistant to ellipsoidal Earth distortion.
-  * Secure multi-file ingestion pipeline with schema validation.
+  * Deterministic AST-level Python source code extraction and metadata indexing.
+  * Traceable evidence-grounded source file retrieval preventing LLM hallucinations.
+  * FastMCP endpoints enabling IDE-level AI queries with exact counts.
 
 ---
 
-### 10. XenTriX ’26 Official Symposium Portal
-* **Repository**: [https://github.com/Shameem1105/Xentrix](https://github.com/Shameem1105/Xentrix)
-* **Lead Contributor**: Mohammed Shameem (`Shameem1105`)
-* **Category**: Event Engineering & High-Throughput Web
-* **Technologies**: TypeScript, React, Vite, Tailwind CSS, Lucide React
-* **Problem**: Major technical symposiums receive rapid bursts of registration traffic that overwhelm generic forms, create registration lockouts, and frustrate attendees.
-* **Solution**: A high-speed, lightweight static-optimized platform engineered to handle peak concurrent registrations, instant schedule lookups, automated team generation, and digital QR confirmations.
+### 10. SlabSense AI
+* **Repository**: [https://github.com/VasiharanB/SlabSense-AI](https://github.com/VasiharanB/SlabSense-AI)
+* **Lead Contributor**: Vasiharan (`VasiharanB`)
+* **Category**: Regulatory AI & Energy Intelligence
+* **Technologies**: Python, AI Retrieval, FastAPI, SQLite, Docker, Pytest
+* **Problem**: Electricity tariffs, subsidies, and billing rules are scattered across complex regulatory orders and government gazettes. Engineers and consumers struggle to compute multi-slab rates across changing effective dates.
+* **Solution**: Engineered an AI regulatory retrieval engine that indexes official tariff orders, tracks effective billing periods, and produces exact mathematical slab calculations backed by page-level document citations.
 * **Key Engineering Highlights**:
-  * Sub-second time-to-interactive (TTI) built on Vite and React.
-  * Instant offline-resilient event schedule caching.
-  * Mobile-optimized registration flow with live validation.
+  * Date-aware regulatory document retrieval with page-level citations.
+  * Multi-tier slab billing arithmetic engine with subsidy validation.
+  * Containerized Docker microservice with structured API contracts.

@@ -237,58 +237,58 @@ export const TOP_PROJECTS: Project[] = [
     gradient: 'from-purple-500/20 via-indigo-600/20 to-blue-700/20'
   },
   {
-    id: 'geospatial-measurement-engine',
+    id: 'devicecensus',
     projectNumber: '09',
-    title: 'Geospatial Measurement Engine',
-    tagline: 'CRS-Aware Topological GIS Microservice',
-    category: 'Custom Software & GIS Engineering',
-    description: 'Production-ready geospatial processing engine for secure KML and Shapefile ingestion, topological geometry validation, and distortion-free geodesic area calculation.',
-    problem: 'Land surveying and civil engineering workflows face geographical distortion and sluggish processing when analyzing spatial vector files across disparate Coordinate Reference Systems.',
-    solution: 'Built a high-performance Python spatial API engine that automatically normalizes projections, re-projects vector boundaries onto geodesic ellipsoids, and calculates accurate areas and perimeters.',
+    title: 'DeviceCensus (E-CODE-07)',
+    tagline: 'Code-Driven Intelligence System for Home Assistant Integrations',
+    category: 'IoT Systems & Code Intelligence',
+    description: 'A code-driven intelligence system for analyzing Home Assistant integrations using structured metadata, Python/SQL analysis, and evidence-backed source-code retrieval across 1,500+ integration manifests.',
+    problem: 'IoT engineers and developers building Home Assistant integrations need to understand device protocols, sensor data retrieval, and error handling spread across 1,500+ manifests. General LLMs hallucinate counts or make unsupported assertions on large codebases.',
+    solution: 'Extracts Home Assistant Core source code into structured datasets and combines exact Python/SQL counting with evidence-backed source-code retrieval to provide traceable answers linked to original files.',
     features: [
-      'Automatic CRS coordinate transformation (WGS84, UTM)',
-      'ESRI Shapefile & KML parser with integrity validation',
-      'Geodesic polygon area & perimeter calculation',
-      'RESTful spatial endpoints with OpenAPI documentation',
-      'Interactive vector map visualization overlay'
+      'Structured AST extraction of 1,500+ Home Assistant manifests',
+      'Traceable, evidence-backed code retrieval preventing LLM hallucinations',
+      'Exact Python & SQL counting algorithms for sensor patterns',
+      'Automated integration manifest schema validation',
+      'FastMCP integration endpoints for AI IDE querying'
     ],
-    technologies: ['Python', 'GeoPandas', 'Shapely', 'Fiona', 'FastAPI / Flask', 'Leaflet'],
-    contributors: ['Mohammed Shameem (Shameem1105)', 'Vasiharan (VasiharanB)'],
-    githubUrl: 'https://github.com/Shameem1105/Geospatial',
-    status: 'Production API Engine',
+    technologies: ['Python', 'SQL', 'FastMCP', 'SQLite', 'Docker', 'AST Parser', 'Pytest'],
+    contributors: ['Mohammed Shameem (Shameem1105)'],
+    githubUrl: 'https://github.com/Shameem1105/DeviceCensus',
+    status: 'Active Repository',
     architectureHighlights: [
-      'Topological polygon validation preventing self-intersections',
-      'Memory-efficient chunked streaming of massive shapefile archives',
-      'Microservice architecture deployable in containerized clouds'
+      'Deterministic AST-level Python source code extraction and metadata indexing',
+      'Traceable evidence-grounded source file retrieval preventing LLM hallucinations',
+      'Dockerized microservice environment with automated test suites'
     ],
-    gradient: 'from-purple-500/20 via-blue-600/20 to-cyan-700/20'
+    gradient: 'from-blue-500/20 via-cyan-600/20 to-teal-700/20'
   },
   {
-    id: 'xentrix-symposium',
+    id: 'slabsense-ai',
     projectNumber: '10',
-    title: 'XenTriX ’26 Official Portal',
-    tagline: 'High-Concurrency Event & Registration Infrastructure',
-    category: 'Event Engineering & Web Platforms',
-    description: 'The official web portal for XenTriX ’26 technical symposium, built to support heavy traffic spikes for workshop registrations, event ticketing, and participant communications.',
-    problem: 'College and institutional technical festivals routinely suffer registration server crashes during peak launch windows, resulting in lost attendee submissions.',
-    solution: 'Developed a high-speed, lightweight static-optimized web platform with instant client validation, responsive schedule browsing, and digital registration pass generation.',
+    title: 'SlabSense AI',
+    tagline: 'Evidence-Grounded AI Assistant for Tariff Regulations',
+    category: 'Regulatory AI & Energy Intelligence',
+    description: 'An evidence-grounded AI assistant for electricity tariffs and regulations, automating complex multi-slab consumer bill calculations and date-aware regulatory document retrieval.',
+    problem: 'Electricity tariffs, subsidies, and billing rules are scattered across complex regulatory orders and government gazettes. Engineers and consumers struggle to compute multi-slab rates across changing effective dates.',
+    solution: 'Engineered an AI regulatory retrieval engine that indexes official tariff orders, tracks effective billing periods, and produces exact mathematical slab calculations backed by page-level document citations.',
     features: [
-      'High-throughput attendee registration pipeline',
-      'Interactive filterable event schedules & venue tracks',
-      'Automated registration ID and QR badge generation',
-      'Mobile-first responsive layout with editorial styling',
-      'Live symposium announcements and rulebook downloads'
+      'Date-aware regulatory document retrieval with page citations',
+      'Multi-tier slab billing arithmetic engine with subsidy validation',
+      'Consumer complaint explanation generator with rule references',
+      'Automated regulatory order parsing and rate change verification',
+      'Containerized RESTful microservice API'
     ],
-    technologies: ['TypeScript', 'React', 'Vite', 'Tailwind CSS', 'Lucide React'],
-    contributors: ['Mohammed Shameem (Shameem1105)'],
-    githubUrl: 'https://github.com/Shameem1105/Xentrix',
-    status: 'Live Production Portal',
+    technologies: ['Python', 'AI Retrieval', 'FastAPI', 'SQLite', 'Docker', 'Pytest'],
+    contributors: ['Vasiharan (VasiharanB)'],
+    githubUrl: 'https://github.com/VasiharanB/SlabSense-AI',
+    status: 'Active Repository',
     architectureHighlights: [
-      'Sub-second first contentful paint (FCP) via static asset bundling',
-      'Client-side state caching with zero redundant network requests',
-      'Touch-optimized navigation designed for mobile attendee usage'
+      'Date-aware regulatory document retrieval with page-level citations',
+      'Multi-tier slab billing arithmetic engine with subsidy validation',
+      'Containerized Docker microservice with structured API contracts'
     ],
-    gradient: 'from-fuchsia-500/20 via-purple-600/20 to-indigo-700/20'
+    gradient: 'from-amber-500/20 via-emerald-600/20 to-teal-700/20'
   }
 ];
 
