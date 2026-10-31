@@ -3,13 +3,8 @@ import { motion } from 'motion/react';
 export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent gsap-section">
-      {/* Starry Background */}
-      <div className="stars"></div>
-      <div className="stars2"></div>
-      <div className="stars3"></div>
-      
       {/* Aurora Effect Background */}
-      <div className="aurora-container">
+      <div className="aurora-container pointer-events-none">
         <div className="aurora-ribbon ribbon-1"></div>
         <div className="aurora-ribbon ribbon-2"></div>
         <div className="aurora-ribbon ribbon-3"></div>
@@ -111,61 +106,7 @@ export function Hero() {
         </motion.div>
       </div>
       
-      {/* Gradient Fade Transition to Next Section */}
-      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-b from-transparent via-[#070709]/20 to-[#070709]/50 z-[5] pointer-events-none"></div>
-      
       <style>{`
-        /* Starry Background */
-        .stars, .stars2, .stars3 {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          background: transparent;
-        }
-        
-        .stars {
-          background-image: 
-            radial-gradient(1.2px 1.2px at 15px 25px, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.4) 60%, transparent 100%),
-            radial-gradient(1px 1px at 45px 65px, rgba(255, 255, 255, 0.95) 0%, transparent 100%),
-            radial-gradient(1.5px 1.5px at 85px 35px, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.7) 50%, transparent 100%),
-            radial-gradient(1px 1px at 110px 145px, rgba(255, 255, 255, 0.9) 0%, transparent 100%),
-            radial-gradient(1.8px 1.8px at 145px 70px, rgba(255, 255, 255, 1) 0%, rgba(200, 240, 255, 0.8) 40%, transparent 100%),
-            radial-gradient(1px 1px at 175px 115px, rgba(255, 255, 255, 0.9) 0%, transparent 100%),
-            radial-gradient(1.2px 1.2px at 190px 185px, rgba(255, 255, 255, 0.95) 0%, transparent 100%);
-          background-repeat: repeat;
-          background-size: 210px 210px;
-          animation: twinkle-bright-1 3.2s ease-in-out infinite;
-          opacity: 0.85;
-        }
-        
-        .stars2 {
-          background-image: 
-            radial-gradient(1.5px 1.5px at 35px 85px, rgba(34, 211, 238, 1) 0%, rgba(34, 211, 238, 0.5) 50%, transparent 100%),
-            radial-gradient(1.2px 1.2px at 95px 15px, rgba(16, 185, 129, 0.95) 0%, transparent 100%),
-            radial-gradient(2px 2px at 160px 130px, rgba(255, 255, 255, 1) 0%, rgba(56, 189, 248, 0.8) 50%, transparent 100%),
-            radial-gradient(1.2px 1.2px at 215px 45px, rgba(96, 165, 250, 0.9) 0%, transparent 100%),
-            radial-gradient(1.5px 1.5px at 240px 195px, rgba(204, 255, 0, 0.85) 0%, transparent 100%),
-            radial-gradient(1px 1px at 70px 220px, rgba(255, 255, 255, 0.9) 0%, transparent 100%);
-          background-repeat: repeat;
-          background-size: 270px 270px;
-          animation: twinkle-bright-2 4.4s ease-in-out infinite reverse;
-          opacity: 0.9;
-        }
-        
-        .stars3 {
-          background-image: 
-            radial-gradient(2.2px 2.2px at 50px 160px, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.85) 30%, rgba(168, 85, 247, 0.4) 65%, transparent 100%),
-            radial-gradient(1.4px 1.4px at 125px 95px, rgba(255, 255, 255, 1) 0%, transparent 100%),
-            radial-gradient(2.4px 2.4px at 220px 260px, rgba(255, 255, 255, 1) 0%, rgba(34, 211, 238, 0.8) 40%, transparent 100%),
-            radial-gradient(1.2px 1.2px at 290px 40px, rgba(255, 255, 255, 0.95) 0%, transparent 100%),
-            radial-gradient(1.8px 1.8px at 180px 20px, rgba(255, 255, 255, 1) 0%, rgba(192, 132, 252, 0.7) 45%, transparent 100%);
-          background-repeat: repeat;
-          background-size: 330px 330px;
-          animation: twinkle-bright-3 5.2s ease-in-out infinite;
-          opacity: 0.85;
-        }
-        
         .aurora-container {
           position: absolute;
           inset: 0;
