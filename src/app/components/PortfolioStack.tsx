@@ -376,7 +376,7 @@ export function PortfolioStack() {
     <section 
       id="portfolio" 
       ref={containerRef}
-      className="relative py-32 px-6 bg-[#09090B] border-t border-white/[0.06] overflow-hidden"
+      className="relative py-32 px-6 bg-[#09090B]/80 backdrop-blur-[2px] border-t border-white/[0.06] overflow-hidden"
     >
       <div className="relative max-w-6xl mx-auto">
         {/* Section Header */}

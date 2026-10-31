@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black gsap-section">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent gsap-section">
       {/* Starry Background */}
       <div className="stars"></div>
       <div className="stars2"></div>
@@ -112,7 +112,7 @@ export function Hero() {
       </div>
       
       {/* Gradient Fade Transition to Next Section */}
-      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-b from-transparent via-black/50 to-black z-[5] pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-b from-transparent via-[#070709]/20 to-[#070709]/50 z-[5] pointer-events-none"></div>
       
       <style>{`
         /* Starry Background */
@@ -126,41 +126,44 @@ export function Hero() {
         
         .stars {
           background-image: 
-            radial-gradient(1px 1px at 20px 30px, rgba(255,255,255,1), transparent),
-            radial-gradient(1px 1px at 60px 70px, rgba(255,255,255,0.9), transparent),
-            radial-gradient(1px 1px at 50px 50px, rgba(255,255,255,0.8), transparent),
-            radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.95), transparent),
-            radial-gradient(1px 1px at 90px 10px, rgba(255,255,255,0.9), transparent);
+            radial-gradient(1.2px 1.2px at 15px 25px, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.4) 60%, transparent 100%),
+            radial-gradient(1px 1px at 45px 65px, rgba(255, 255, 255, 0.95) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 85px 35px, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.7) 50%, transparent 100%),
+            radial-gradient(1px 1px at 110px 145px, rgba(255, 255, 255, 0.9) 0%, transparent 100%),
+            radial-gradient(1.8px 1.8px at 145px 70px, rgba(255, 255, 255, 1) 0%, rgba(200, 240, 255, 0.8) 40%, transparent 100%),
+            radial-gradient(1px 1px at 175px 115px, rgba(255, 255, 255, 0.9) 0%, transparent 100%),
+            radial-gradient(1.2px 1.2px at 190px 185px, rgba(255, 255, 255, 0.95) 0%, transparent 100%);
           background-repeat: repeat;
-          background-size: 200px 200px;
-          animation: twinkle 3s ease-in-out infinite;
-          opacity: 0.6;
+          background-size: 210px 210px;
+          animation: twinkle-bright-1 3.2s ease-in-out infinite;
+          opacity: 0.85;
         }
         
         .stars2 {
           background-image: 
-            radial-gradient(1px 1px at 40px 60px, rgba(16, 185, 129, 0.7), transparent),
-            radial-gradient(1px 1px at 110px 90px, rgba(6, 182, 212, 0.6), transparent),
-            radial-gradient(1px 1px at 70px 20px, rgba(59, 130, 246, 0.6), transparent);
+            radial-gradient(1.5px 1.5px at 35px 85px, rgba(34, 211, 238, 1) 0%, rgba(34, 211, 238, 0.5) 50%, transparent 100%),
+            radial-gradient(1.2px 1.2px at 95px 15px, rgba(16, 185, 129, 0.95) 0%, transparent 100%),
+            radial-gradient(2px 2px at 160px 130px, rgba(255, 255, 255, 1) 0%, rgba(56, 189, 248, 0.8) 50%, transparent 100%),
+            radial-gradient(1.2px 1.2px at 215px 45px, rgba(96, 165, 250, 0.9) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 240px 195px, rgba(204, 255, 0, 0.85) 0%, transparent 100%),
+            radial-gradient(1px 1px at 70px 220px, rgba(255, 255, 255, 0.9) 0%, transparent 100%);
           background-repeat: repeat;
-          background-size: 250px 250px;
-          animation: twinkle 4s ease-in-out infinite reverse;
-          opacity: 0.7;
+          background-size: 270px 270px;
+          animation: twinkle-bright-2 4.4s ease-in-out infinite reverse;
+          opacity: 0.9;
         }
         
         .stars3 {
           background-image: 
-            radial-gradient(1px 1px at 150px 120px, rgba(16, 185, 129, 0.8), transparent),
-            radial-gradient(1px 1px at 80px 140px, rgba(168, 85, 247, 0.7), transparent);
+            radial-gradient(2.2px 2.2px at 50px 160px, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.85) 30%, rgba(168, 85, 247, 0.4) 65%, transparent 100%),
+            radial-gradient(1.4px 1.4px at 125px 95px, rgba(255, 255, 255, 1) 0%, transparent 100%),
+            radial-gradient(2.4px 2.4px at 220px 260px, rgba(255, 255, 255, 1) 0%, rgba(34, 211, 238, 0.8) 40%, transparent 100%),
+            radial-gradient(1.2px 1.2px at 290px 40px, rgba(255, 255, 255, 0.95) 0%, transparent 100%),
+            radial-gradient(1.8px 1.8px at 180px 20px, rgba(255, 255, 255, 1) 0%, rgba(192, 132, 252, 0.7) 45%, transparent 100%);
           background-repeat: repeat;
-          background-size: 300px 300px;
-          animation: twinkle 5s ease-in-out infinite;
-          opacity: 0.6;
-        }
-        
-        @keyframes twinkle {
-          0%, 100% { opacity: 0.5; }
-          50% { opacity: 0.8; }
+          background-size: 330px 330px;
+          animation: twinkle-bright-3 5.2s ease-in-out infinite;
+          opacity: 0.85;
         }
         
         .aurora-container {
@@ -169,29 +172,29 @@ export function Hero() {
           overflow: hidden;
         }
         
-        /* Aurora Ribbons - Vertical flowing streams with neon colors */
+        /* Aurora Ribbons - Wider spread, softer blur & balanced opacity */
         .aurora-ribbon {
           position: absolute;
-          width: 400px;
-          height: 180%;
-          top: -40%;
-          filter: blur(70px);
-          opacity: 0.6;
+          width: 750px;
+          height: 200%;
+          top: -50%;
+          filter: blur(140px);
+          opacity: 0.38;
           mix-blend-mode: screen;
           animation-timing-function: ease-in-out;
           animation-iteration-count: infinite;
         }
         
         .ribbon-1 {
-          left: 5%;
+          left: 2%;
           background: linear-gradient(
             to bottom,
             transparent 0%,
-            rgba(16, 185, 129, 0.8) 15%,
-            rgba(5, 150, 105, 0.7) 30%,
-            rgba(16, 185, 129, 0.6) 45%,
-            rgba(6, 182, 212, 0.5) 60%,
-            rgba(16, 185, 129, 0.3) 75%,
+            rgba(16, 185, 129, 0.55) 15%,
+            rgba(5, 150, 105, 0.45) 30%,
+            rgba(16, 185, 129, 0.4) 45%,
+            rgba(6, 182, 212, 0.35) 60%,
+            rgba(16, 185, 129, 0.2) 75%,
             transparent 100%
           );
           animation: aurora-flow-1 12s ease-in-out infinite, aurora-sway-1 8s ease-in-out infinite;
@@ -199,15 +202,15 @@ export function Hero() {
         }
         
         .ribbon-2 {
-          left: 20%;
+          left: 18%;
           background: linear-gradient(
             to bottom,
             transparent 0%,
-            rgba(6, 182, 212, 0.9) 10%,
-            rgba(34, 211, 238, 0.8) 25%,
-            rgba(6, 182, 212, 0.7) 40%,
-            rgba(59, 130, 246, 0.6) 55%,
-            rgba(6, 182, 212, 0.4) 70%,
+            rgba(6, 182, 212, 0.6) 10%,
+            rgba(34, 211, 238, 0.5) 25%,
+            rgba(6, 182, 212, 0.45) 40%,
+            rgba(59, 130, 246, 0.4) 55%,
+            rgba(6, 182, 212, 0.25) 70%,
             transparent 100%
           );
           animation: aurora-flow-2 14s ease-in-out infinite, aurora-sway-2 10s ease-in-out infinite;
@@ -215,15 +218,15 @@ export function Hero() {
         }
         
         .ribbon-3 {
-          left: 40%;
+          left: 38%;
           background: linear-gradient(
             to bottom,
             transparent 0%,
-            rgba(59, 130, 246, 0.9) 20%,
-            rgba(37, 99, 235, 0.8) 35%,
-            rgba(99, 102, 241, 0.7) 50%,
-            rgba(139, 92, 246, 0.6) 65%,
-            rgba(59, 130, 246, 0.4) 80%,
+            rgba(59, 130, 246, 0.55) 20%,
+            rgba(37, 99, 235, 0.45) 35%,
+            rgba(99, 102, 241, 0.4) 50%,
+            rgba(139, 92, 246, 0.35) 65%,
+            rgba(59, 130, 246, 0.25) 80%,
             transparent 100%
           );
           animation: aurora-flow-3 16s ease-in-out infinite, aurora-sway-3 9s ease-in-out infinite;
@@ -231,15 +234,15 @@ export function Hero() {
         }
         
         .ribbon-4 {
-          right: 20%;
+          right: 18%;
           background: linear-gradient(
             to bottom,
             transparent 0%,
-            rgba(168, 85, 247, 0.8) 12%,
-            rgba(139, 92, 246, 0.7) 28%,
-            rgba(99, 102, 241, 0.6) 44%,
-            rgba(59, 130, 246, 0.5) 60%,
-            rgba(168, 85, 247, 0.4) 76%,
+            rgba(168, 85, 247, 0.55) 12%,
+            rgba(139, 92, 246, 0.45) 28%,
+            rgba(99, 102, 241, 0.4) 44%,
+            rgba(59, 130, 246, 0.35) 60%,
+            rgba(168, 85, 247, 0.25) 76%,
             transparent 100%
           );
           animation: aurora-flow-4 15s ease-in-out infinite, aurora-sway-4 11s ease-in-out infinite;
@@ -247,71 +250,80 @@ export function Hero() {
         }
         
         .ribbon-5 {
-          right: 5%;
+          right: 2%;
           background: linear-gradient(
             to bottom,
             transparent 0%,
-            rgba(6, 182, 212, 0.9) 15%,
-            rgba(34, 211, 238, 0.8) 30%,
-            rgba(16, 185, 129, 0.7) 45%,
-            rgba(168, 85, 247, 0.5) 60%,
-            rgba(6, 182, 212, 0.4) 75%,
+            rgba(6, 182, 212, 0.55) 15%,
+            rgba(34, 211, 238, 0.45) 30%,
+            rgba(16, 185, 129, 0.4) 45%,
+            rgba(168, 85, 247, 0.35) 60%,
+            rgba(6, 182, 212, 0.25) 75%,
             transparent 100%
           );
           animation: aurora-flow-5 13s ease-in-out infinite, aurora-sway-5 7s ease-in-out infinite;
           transform: skewX(-10deg);
         }
         
-        /* Aurora Glows - Additional ambient light */
+        /* Aurora Glows - Expanded Spread, Silky Luminous Glow & Subtle Opacity */
         .aurora-glow {
           position: absolute;
           border-radius: 50%;
-          filter: blur(120px);
-          opacity: 0.5;
+          filter: blur(190px);
+          opacity: 0.36;
           mix-blend-mode: screen;
+          pointer-events: none;
         }
         
+        /* Glowing Neon Color 1: Emerald & Cyan (Left / Center) */
         .glow-1 {
-          width: 700px;
-          height: 700px;
-          top: 10%;
-          left: 15%;
-          background: radial-gradient(
-            circle,
-            rgba(16, 185, 129, 0.6) 0%,
-            rgba(6, 182, 212, 0.3) 30%,
-            transparent 70%
-          );
-          animation: glow-pulse-1 10s ease-in-out infinite, glow-drift-1 20s ease-in-out infinite;
-        }
-        
-        .glow-2 {
-          width: 800px;
-          height: 800px;
+          width: 1200px;
+          height: 1200px;
           top: 5%;
-          right: 10%;
+          left: 8%;
           background: radial-gradient(
-            circle,
-            rgba(59, 130, 246, 0.6) 0%,
-            rgba(168, 85, 247, 0.4) 30%,
-            transparent 70%
+            circle at 45% 45%,
+            rgba(16, 185, 129, 0.55) 0%,
+            rgba(6, 182, 212, 0.38) 28%,
+            rgba(5, 150, 105, 0.18) 50%,
+            rgba(16, 185, 129, 0.06) 70%,
+            transparent 82%
           );
-          animation: glow-pulse-2 12s ease-in-out infinite, glow-drift-2 25s ease-in-out infinite;
+          animation: glow-pulse-1 11s ease-in-out infinite, glow-drift-1 22s ease-in-out infinite;
         }
         
+        /* Glowing Neon Color 2: Blue & Purple (Right / Center) */
+        .glow-2 {
+          width: 1300px;
+          height: 1300px;
+          top: 2%;
+          right: 5%;
+          background: radial-gradient(
+            circle at 55% 45%,
+            rgba(59, 130, 246, 0.52) 0%,
+            rgba(139, 92, 246, 0.38) 28%,
+            rgba(168, 85, 247, 0.2) 52%,
+            rgba(99, 102, 241, 0.06) 72%,
+            transparent 84%
+          );
+          animation: glow-pulse-2 13s ease-in-out infinite, glow-drift-2 26s ease-in-out infinite;
+        }
+        
+        /* Ambient Connector Glow */
         .glow-3 {
-          width: 600px;
-          height: 600px;
-          bottom: 10%;
+          width: 1100px;
+          height: 850px;
+          bottom: 5%;
           left: 50%;
           transform: translateX(-50%);
           background: radial-gradient(
-            circle,
-            rgba(6, 182, 212, 0.5) 0%,
-            rgba(16, 185, 129, 0.3) 30%,
-            transparent 70%
+            ellipse at 50% 50%,
+            rgba(6, 182, 212, 0.4) 0%,
+            rgba(16, 185, 129, 0.22) 35%,
+            rgba(34, 211, 238, 0.08) 60%,
+            transparent 75%
           );
-          animation: glow-pulse-3 11s ease-in-out infinite;
+          animation: glow-pulse-3 12s ease-in-out infinite;
         }
         
         /* Text Effects */
@@ -464,121 +476,121 @@ export function Hero() {
           }
         }
         
-        /* Sway Animations - Horizontal wave movement */
+        /* Sway Animations - Subtle wave drift with refined opacity */
         @keyframes aurora-sway-1 {
           0%, 100% {
             transform: skewX(-12deg) translateX(0) scaleX(1);
-            opacity: 0.6;
+            opacity: 0.35;
           }
           25% {
-            transform: skewX(-8deg) translateX(40px) scaleX(1.1);
-            opacity: 0.7;
+            transform: skewX(-8deg) translateX(40px) scaleX(1.08);
+            opacity: 0.42;
           }
           50% {
-            transform: skewX(-16deg) translateX(0) scaleX(0.95);
-            opacity: 0.5;
+            transform: skewX(-16deg) translateX(0) scaleX(0.96);
+            opacity: 0.32;
           }
           75% {
-            transform: skewX(-10deg) translateX(-30px) scaleX(1.05);
-            opacity: 0.65;
+            transform: skewX(-10deg) translateX(-30px) scaleX(1.04);
+            opacity: 0.4;
           }
         }
         
         @keyframes aurora-sway-2 {
           0%, 100% {
             transform: skewX(10deg) translateX(0) scaleX(1);
-            opacity: 0.6;
+            opacity: 0.36;
           }
           30% {
-            transform: skewX(14deg) translateX(-35px) scaleX(1.08);
-            opacity: 0.7;
+            transform: skewX(14deg) translateX(-35px) scaleX(1.06);
+            opacity: 0.44;
           }
           60% {
             transform: skewX(6deg) translateX(25px) scaleX(0.98);
-            opacity: 0.55;
+            opacity: 0.32;
           }
           80% {
             transform: skewX(12deg) translateX(-15px) scaleX(1.03);
-            opacity: 0.65;
+            opacity: 0.4;
           }
         }
         
         @keyframes aurora-sway-3 {
           0%, 100% {
             transform: skewX(-18deg) translateX(0) scaleX(1);
-            opacity: 0.65;
+            opacity: 0.38;
           }
           35% {
-            transform: skewX(-14deg) translateX(45px) scaleX(1.12);
-            opacity: 0.75;
+            transform: skewX(-14deg) translateX(45px) scaleX(1.08);
+            opacity: 0.46;
           }
           65% {
-            transform: skewX(-22deg) translateX(-35px) scaleX(0.92);
-            opacity: 0.6;
+            transform: skewX(-22deg) translateX(-35px) scaleX(0.94);
+            opacity: 0.33;
           }
         }
         
         @keyframes aurora-sway-4 {
           0%, 100% {
             transform: skewX(15deg) translateX(0) scaleX(1);
-            opacity: 0.6;
+            opacity: 0.36;
           }
           40% {
-            transform: skewX(19deg) translateX(-40px) scaleX(1.1);
-            opacity: 0.7;
+            transform: skewX(19deg) translateX(-40px) scaleX(1.08);
+            opacity: 0.44;
           }
           70% {
             transform: skewX(11deg) translateX(30px) scaleX(0.96);
-            opacity: 0.55;
+            opacity: 0.32;
           }
         }
         
         @keyframes aurora-sway-5 {
           0%, 100% {
             transform: skewX(-10deg) translateX(0) scaleX(1);
-            opacity: 0.6;
+            opacity: 0.35;
           }
           33% {
-            transform: skewX(-6deg) translateX(35px) scaleX(1.08);
-            opacity: 0.7;
+            transform: skewX(-6deg) translateX(35px) scaleX(1.06);
+            opacity: 0.42;
           }
           66% {
-            transform: skewX(-14deg) translateX(-25px) scaleX(0.94);
-            opacity: 0.55;
+            transform: skewX(-14deg) translateX(-25px) scaleX(0.95);
+            opacity: 0.32;
           }
         }
         
-        /* Glow Pulse Animations */
+        /* Glow Pulse Animations - Silky ambient breathing */
         @keyframes glow-pulse-1 {
           0%, 100% {
             transform: scale(1);
-            opacity: 0.5;
+            opacity: 0.32;
           }
           50% {
-            transform: scale(1.2);
-            opacity: 0.7;
+            transform: scale(1.15);
+            opacity: 0.44;
           }
         }
         
         @keyframes glow-pulse-2 {
           0%, 100% {
             transform: scale(1);
-            opacity: 0.4;
+            opacity: 0.30;
           }
           50% {
-            transform: scale(1.15);
-            opacity: 0.65;
+            transform: scale(1.18);
+            opacity: 0.42;
           }
         }
         
         @keyframes glow-pulse-3 {
           0%, 100% {
             transform: translateX(-50%) scale(1);
-            opacity: 0.4;
+            opacity: 0.28;
           }
           50% {
-            transform: translateX(-50%) scale(1.25);
-            opacity: 0.6;
+            transform: translateX(-50%) scale(1.2);
+            opacity: 0.38;
           }
         }
         

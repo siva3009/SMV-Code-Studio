@@ -290,7 +290,7 @@ function MetallicIdentityCard({ member, isCenter }: { member: TeamMember; isCent
 
 export function TeamTrio() {
   return (
-    <section id="team" className="relative py-32 px-6 bg-[#09090B] border-t border-white/[0.06] overflow-hidden">
+    <section id="team" className="relative py-32 px-6 bg-[#09090B]/80 backdrop-blur-[2px] border-t border-white/[0.06] overflow-hidden">
       {/* Background Architectural Grid Pattern */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
         <div className="w-full h-full" style={{

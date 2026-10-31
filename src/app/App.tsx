@@ -41,40 +41,50 @@ export default function App() {
   }, []);
 
   return (
-    <div className="w-full bg-[#09090B] text-[#F4F4F6] selection:bg-[#CCFF00] selection:text-[#09090B]">
-      {/* SECTION 00 — PROTECTED APPROVED HERO & NAVIGATION */}
-      <Navigation />
-      <Hero />
+    <div className="relative w-full min-h-screen bg-[#070709] text-[#F4F4F6] selection:bg-[#CCFF00] selection:text-[#09090B]">
+      {/* GLOBAL TWINKLING STARFIELD BACKGROUND ACROSS ENTIRE WEBSITE */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+        <div className="stars-layer-1" />
+        <div className="stars-layer-2" />
+        <div className="stars-layer-3" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#070709]/10 to-[#070709]/40" />
+      </div>
 
-      {/* SECTION 01 — ABOUT / EDITORIAL BRAND MANIFESTO */}
-      <AboutManifesto />
+      <div className="relative z-10">
+        {/* SECTION 00 — PROTECTED APPROVED HERO & NAVIGATION */}
+        <Navigation />
+        <Hero />
 
-      {/* SECTION 02 — THE TRIO / FOUNDING TEAM */}
-      <TeamTrio />
+        {/* SECTION 01 — ABOUT / EDITORIAL BRAND MANIFESTO */}
+        <AboutManifesto />
 
-      {/* SECTION 03 — INTERACTIVE SERVICES MATRIX */}
-      <ServicesMatrix />
+        {/* SECTION 02 — THE TRIO / FOUNDING TEAM */}
+        <TeamTrio />
 
-      {/* SECTION 04 — CINEMATIC 3D PORTFOLIO STACK & REPOSITORY CASE STUDIES */}
-      <PortfolioStack />
+        {/* SECTION 03 — INTERACTIVE SERVICES MATRIX */}
+        <ServicesMatrix />
 
-      {/* SECTION 05 — TECHNICAL CAPABILITIES BENTO */}
-      <CapabilitiesBento />
+        {/* SECTION 04 — CINEMATIC 3D PORTFOLIO STACK & REPOSITORY CASE STUDIES */}
+        <PortfolioStack />
 
-      {/* SECTION 06 — ENGINEERING PROCESS LIFECYCLE */}
-      <ProcessTimeline />
+        {/* SECTION 05 — TECHNICAL CAPABILITIES BENTO */}
+        <CapabilitiesBento />
 
-      {/* SECTION 07 — WHY TRICODEX VALUE PROPOSITION */}
-      <WhyTriCodeX />
+        {/* SECTION 06 — ENGINEERING PROCESS LIFECYCLE */}
+        <ProcessTimeline />
 
-      {/* SECTION 08 — INTERACTIVE TECHNOLOGY ECOSYSTEM */}
-      <TechEcosystem />
+        {/* SECTION 07 — WHY TRICODEX VALUE PROPOSITION */}
+        <WhyTriCodeX />
 
-      {/* SECTION 09 — CONVERSION PORTAL & SCOPING INQUIRY */}
-      <ConversionContact />
+        {/* SECTION 08 — INTERACTIVE TECHNOLOGY ECOSYSTEM */}
+        <TechEcosystem />
 
-      {/* SECTION 10 — TECHNICAL COLOPHON & FOOTER */}
-      <FooterTechnical />
+        {/* SECTION 09 — CONVERSION PORTAL & SCOPING INQUIRY */}
+        <ConversionContact />
+
+        {/* SECTION 10 — TECHNICAL COLOPHON & FOOTER */}
+        <FooterTechnical />
+      </div>
     </div>
   );
 }

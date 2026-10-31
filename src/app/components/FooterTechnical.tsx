@@ -6,7 +6,7 @@ export function FooterTechnical() {
   };
 
   return (
-    <footer className="relative bg-[#09090B] text-[#9CA3AF] border-t border-white/[0.08] pt-20 pb-12 px-6 overflow-hidden font-mono text-xs">
+    <footer className="relative bg-[#09090B]/85 backdrop-blur-[2px] text-[#9CA3AF] border-t border-white/[0.08] pt-20 pb-12 px-6 overflow-hidden font-mono text-xs">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-white/[0.06]">
           {/* Brand Colophon (5 cols) */}
