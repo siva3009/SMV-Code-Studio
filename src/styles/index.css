@@ -429,3 +429,87 @@ button, input, select, textarea, a {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ==========================================================================
+   DYNAMIC SHOOTING STARS & DEEP SPACE GALAXY ANIMATIONS
+   ========================================================================== */
+@keyframes shooting-star-anim {
+  0% {
+    transform: translateX(-120px) scaleX(0.2);
+    opacity: 0;
+  }
+  15% {
+    transform: translateX(0px) scaleX(1);
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateX(450px) scaleX(1.3);
+    opacity: 0;
+  }
+}
+
+.ambient-meteor {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.7), #ffffff);
+  border-radius: 9999px;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 12px rgba(56, 189, 248, 0.6));
+  pointer-events: none;
+  opacity: 0;
+}
+
+.ambient-meteor-1 {
+  top: 14%;
+  left: 18%;
+  width: 150px;
+  transform: rotate(45deg);
+  animation: ambient-meteor-anim-1 9s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.ambient-meteor-2 {
+  top: 36%;
+  left: 62%;
+  width: 180px;
+  transform: rotate(52deg);
+  animation: ambient-meteor-anim-2 12s ease-in-out infinite;
+  animation-delay: 6s;
+}
+
+.ambient-meteor-3 {
+  top: 68%;
+  left: 28%;
+  width: 140px;
+  transform: rotate(42deg);
+  animation: ambient-meteor-anim-3 15s ease-in-out infinite;
+  animation-delay: 10s;
+}
+
+@keyframes ambient-meteor-anim-1 {
+  0% { transform: rotate(45deg) translateX(-100px); opacity: 0; }
+  10% { transform: rotate(45deg) translateX(0px); opacity: 1; }
+  25% { transform: rotate(45deg) translateX(350px); opacity: 0; }
+  100% { transform: rotate(45deg) translateX(350px); opacity: 0; }
+}
+
+@keyframes ambient-meteor-anim-2 {
+  0% { transform: rotate(52deg) translateX(-100px); opacity: 0; }
+  12% { transform: rotate(52deg) translateX(0px); opacity: 1; }
+  28% { transform: rotate(52deg) translateX(380px); opacity: 0; }
+  100% { transform: rotate(52deg) translateX(380px); opacity: 0; }
+}
+
+@keyframes ambient-meteor-anim-3 {
+  0% { transform: rotate(42deg) translateX(-100px); opacity: 0; }
+  10% { transform: rotate(42deg) translateX(0px); opacity: 1; }
+  24% { transform: rotate(42deg) translateX(320px); opacity: 0; }
+  100% { transform: rotate(42deg) translateX(320px); opacity: 0; }
+}
+
+@keyframes galaxy-slow-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

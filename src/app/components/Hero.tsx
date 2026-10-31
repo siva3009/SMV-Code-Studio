@@ -3,6 +3,18 @@ import { motion } from 'motion/react';
 export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent gsap-section">
+      {/* TWO GLOWING NEON LIGHTS — EXCLUSIVE TO HERO SECTION ONLY */}
+      <div className="aurora-container pointer-events-none">
+        <div className="aurora-ribbon ribbon-1" />
+        <div className="aurora-ribbon ribbon-2" />
+        <div className="aurora-ribbon ribbon-3" />
+        <div className="aurora-ribbon ribbon-4" />
+        <div className="aurora-ribbon ribbon-5" />
+        <div className="aurora-glow glow-1" />
+        <div className="aurora-glow glow-2" />
+        <div className="aurora-glow glow-3" />
+      </div>
+
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-6xl mx-auto hero-content">
         <motion.div 

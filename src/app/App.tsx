@@ -1,5 +1,6 @@
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/Hero';
+import { CosmicBackground } from './components/CosmicBackground';
 import { AboutManifesto } from './components/AboutManifesto';
 import { TeamTrio } from './components/TeamTrio';
 import { ServicesMatrix } from './components/ServicesMatrix';
@@ -43,27 +44,10 @@ export default function App() {
   return (
     <div className="relative w-full min-h-screen bg-[#070709] text-[#F4F4F6] selection:bg-[#CCFF00] selection:text-[#09090B]">
       {/* ============================================================== */}
-      {/* GLOBAL SINGLE CONTINUOUS BACKGROUND ACROSS ENTIRE WEBSITE      */}
-      {/* Twinkling stars + aurora glow flow continuously top-to-bottom  */}
+      {/* GLOBAL COSMIC BACKGROUND ACROSS ENTIRE FULL WEBSITE            */}
+      {/* Continuous twinkling stars, shooting stars & deep-space galaxies*/}
       {/* ============================================================== */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-        {/* Continuous Twinkling Starfield */}
-        <div className="stars-layer-1" />
-        <div className="stars-layer-2" />
-        <div className="stars-layer-3" />
-
-        {/* Continuous Aurora Ribbons & Ambient Neon Glow Atmosphere */}
-        <div className="aurora-container">
-          <div className="aurora-ribbon ribbon-1" />
-          <div className="aurora-ribbon ribbon-2" />
-          <div className="aurora-ribbon ribbon-3" />
-          <div className="aurora-ribbon ribbon-4" />
-          <div className="aurora-ribbon ribbon-5" />
-          <div className="aurora-glow glow-1" />
-          <div className="aurora-glow glow-2" />
-          <div className="aurora-glow glow-3" />
-        </div>
-      </div>
+      <CosmicBackground />
 
       <div className="relative z-10">
         {/* SECTION 00 — PROTECTED APPROVED HERO & NAVIGATION */}
