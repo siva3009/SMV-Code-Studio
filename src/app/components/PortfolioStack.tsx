@@ -1,156 +1,163 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { TOP_PROJECTS, Project } from '../data/projects';
 import { 
   Github, 
   ExternalLink, 
-  ChevronLeft, 
-  ChevronRight, 
+  ChevronDown, 
+  ChevronUp, 
   ArrowUpRight, 
   X, 
   CheckCircle2, 
   Cpu, 
-  Orbit, 
-  RotateCw,
-  FolderGit2
+  Sparkles,
+  Layers,
+  ArrowDown
 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function PortfolioStack() {
   const containerRef = useRef<HTMLElement | null>(null);
-  const spindleRef = useRef<HTMLDivElement | null>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const deckRef = useRef<HTMLDivElement | null>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
-  const [radius, setRadius] = useState(580);
-  const [isMobile, setIsMobile] = useState(false);
   const totalCards = TOP_PROJECTS.length; // 10 verified projects
-  const anglePerCard = 360 / totalCards; // 36 degrees per card
 
-  // Calculate responsive 3D cylinder radius based on viewport width
+  // Setup GSAP ScrollTrigger: one by one, cards go down on scroll!
   useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      setIsMobile(width < 768);
-      if (width < 640) {
-        setRadius(340);
-      } else if (width < 1024) {
-        setRadius(460);
-      } else {
-        setRadius(580);
-      }
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Rotate spindle to specific index
-  const rotateTo = useCallback((index: number) => {
-    const normalized = (index + totalCards) % totalCards;
-    setActiveIndex(normalized);
-  }, [totalCards]);
-
-  const handlePrev = () => rotateTo(activeIndex - 1);
-  const handleNext = () => rotateTo(activeIndex + 1);
-
-  // GSAP ScrollTrigger Integration: scroll rotates the 3D spindle smoothly through projects
-  useEffect(() => {
-    if (isMobile) return;
+    const cards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
+    if (cards.length < 2) return;
 
     const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: 'top top',
-        end: `+=${totalCards * 320}`,
-        pin: true,
-        scrub: 1,
-        onUpdate: (self) => {
-          const progress = self.progress;
-          const targetIndex = Math.min(
-            totalCards - 1,
-            Math.floor(progress * totalCards)
-          );
-          setActiveIndex(targetIndex);
+      // Create scroll-driven scrub timeline where cards go down one by one
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: `+=${(totalCards - 1) * 800}`,
+          pin: true,
+          scrub: 0.8,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            const step = Math.min(
+              totalCards - 1,
+              Math.floor(self.progress * (totalCards - 0.05))
+            );
+            setCurrentIndex(step);
+          }
         }
+      });
+
+      // Animate each card going DOWN one by one to reveal the card underneath
+      cards.forEach((card, index) => {
+        if (index === cards.length - 1) return; // Last card stays visible
+
+        tl.to(card, {
+          yPercent: 125,
+          opacity: 0,
+          scale: 0.96,
+          rotateX: 8,
+          duration: 1,
+          ease: 'power1.inOut'
+        }, `step-${index}`);
       });
     }, containerRef);
 
     return () => ctx.revert();
-  }, [isMobile, totalCards]);
+  }, [totalCards]);
 
-  // Handle escape key to dismiss modal
+  // Jump to specific project
+  const jumpTo = (targetIdx: number) => {
+    if (!containerRef.current) return;
+    const scrollTrigger = ScrollTrigger.getById('portfolio-scroll');
+    const start = containerRef.current.offsetTop;
+    const totalDist = (totalCards - 1) * 800;
+    const targetScroll = start + (targetIdx / (totalCards - 1)) * totalDist;
+    window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+  };
+
+  const handleNext = () => {
+    if (currentIndex < totalCards - 1) jumpTo(currentIndex + 1);
+  };
+
+  const handlePrev = () => {
+    if (currentIndex > 0) jumpTo(currentIndex - 1);
+  };
+
+  // Close modal on Escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setActiveProject(null);
-      if (e.key === 'ArrowLeft') handlePrev();
-      if (e.key === 'ArrowRight') handleNext();
+      if (e.key === 'ArrowDown') handleNext();
+      if (e.key === 'ArrowUp') handlePrev();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeIndex]);
-
-  // Current rotation of the 3D spindle
-  const spindleRotation = -activeIndex * anglePerCard;
+  }, [currentIndex]);
 
   return (
     <section 
       id="portfolio" 
       ref={containerRef}
-      className="relative min-h-screen py-28 px-6 bg-transparent overflow-hidden flex flex-col justify-center"
+      className="relative min-h-screen py-24 px-6 bg-transparent overflow-hidden flex flex-col justify-center"
     >
-      <div className="relative max-w-7xl mx-auto w-full z-10">
+      <div className="relative max-w-6xl mx-auto w-full z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/[0.08] pb-8 mb-12 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/[0.08] pb-6 mb-8 gap-6">
           <div>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-3 mb-3">
               <span className="w-2 h-2 rounded-full bg-[#CCFF00] shadow-[0_0_10px_#CCFF00]" />
               <span className="text-xs font-mono tracking-widest text-[#CCFF00] uppercase flex items-center gap-2">
-                <Orbit className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '8s' }} />
-                04 // 3D SPINAL ROTATING PORTFOLIO
+                <Layers className="w-3.5 h-3.5" />
+                04 // SPINAL CARD DECK
               </span>
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-[#F4F4F6] tracking-tight">
-              Spinal Rotating Projects // <span className="font-semibold text-white">10 Verified Systems</span>
+              Selected Work // <span className="font-semibold text-white">Spinal Drop Stack</span>
             </h2>
           </div>
 
-          {/* Spindle Rotation Controls */}
+          {/* Spine Progress Counter & Controls */}
           <div className="flex items-center gap-4">
-            <div className="text-xs font-mono text-[#CCFF00] px-4 py-2 rounded-full bg-[#15151A] border border-[#CCFF00]/30 shadow-md">
-              CYLINDER ANGLE: <span className="font-bold">{activeIndex + 1} / {totalCards}</span>
+            <div className="text-xs font-mono text-[#CCFF00] px-4 py-2 rounded-full bg-[#15151A] border border-[#CCFF00]/30 shadow-md flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#CCFF00] animate-pulse" />
+              <span>PROJECT {currentIndex + 1} OF {totalCards}</span>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={handlePrev}
-                className="w-11 h-11 rounded-full bg-[#15151A] border border-white/[0.12] hover:border-[#CCFF00] hover:text-[#CCFF00] flex items-center justify-center text-white/80 transition-all hover:scale-110 shadow-lg"
-                title="Rotate to Previous Project"
+                disabled={currentIndex === 0}
+                className="w-10 h-10 rounded-full bg-[#15151A] border border-white/[0.12] hover:border-[#CCFF00] hover:text-[#CCFF00] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center text-white/80 transition-all shadow-lg"
+                title="Previous Project (Move Up)"
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronUp className="w-5 h-5" />
               </button>
               <button
                 onClick={handleNext}
-                className="w-11 h-11 rounded-full bg-[#15151A] border border-white/[0.12] hover:border-[#CCFF00] hover:text-[#CCFF00] flex items-center justify-center text-white/80 transition-all hover:scale-110 shadow-lg"
-                title="Rotate to Next Project"
+                disabled={currentIndex === totalCards - 1}
+                className="w-10 h-10 rounded-full bg-[#15151A] border border-white/[0.12] hover:border-[#CCFF00] hover:text-[#CCFF00] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center text-white/80 transition-all shadow-lg"
+                title="Next Project (Card Drops Down)"
               >
-                <ChevronRight className="w-5 h-5" />
+                <ChevronDown className="w-5 h-5" />
               </button>
             </div>
           </div>
         </div>
 
-        {/* Project Selector Dial / Horizontal Spine Navigator */}
-        <div className="mb-10 overflow-x-auto pb-3 scrollbar-none flex items-center gap-2">
+        {/* Project Selector Pills Dial */}
+        <div className="mb-8 overflow-x-auto pb-2 scrollbar-none flex items-center gap-2">
           {TOP_PROJECTS.map((proj, idx) => {
-            const isCurrent = idx === activeIndex;
+            const isCurrent = idx === currentIndex;
             return (
               <button
                 key={proj.id}
-                onClick={() => rotateTo(idx)}
+                onClick={() => jumpTo(idx)}
                 className={`px-3.5 py-1.5 rounded-full text-xs font-mono whitespace-nowrap transition-all duration-300 flex items-center gap-2 border ${
                   isCurrent
-                    ? 'bg-[#CCFF00] text-[#09090B] font-bold border-[#CCFF00] shadow-[0_0_15px_rgba(204,255,0,0.4)] scale-105'
+                    ? 'bg-[#CCFF00] text-[#09090B] font-bold border-[#CCFF00] shadow-[0_0_15px_rgba(204,255,0,0.35)] scale-105'
                     : 'bg-[#15151A]/80 text-zinc-400 border-white/[0.08] hover:border-white/[0.25] hover:text-white'
                 }`}
               >
@@ -162,180 +169,145 @@ export function PortfolioStack() {
         </div>
 
         {/* ============================================================== */}
-        {/* 3D SPINAL ROTATING CYLINDER / CAROUSEL STAGE                   */}
+        {/* SPINAL VERTICAL STACK DECK: CARDS DROP DOWN ONE BY ONE!        */}
         {/* ============================================================== */}
         <div 
-          className="relative w-full h-[580px] sm:h-[620px] flex items-center justify-center"
-          style={{
-            perspective: '1400px',
-            perspectiveOrigin: '50% 50%'
-          }}
+          ref={deckRef}
+          className="relative w-full h-[580px] sm:h-[620px] rounded-3xl"
+          style={{ perspective: '1200px' }}
         >
-          {/* Central Rotating Spindle Axis */}
-          <div
-            ref={spindleRef}
-            className="relative w-full max-w-2xl h-full"
-            style={{
-              transformStyle: 'preserve-3d',
-              transform: `rotateY(${spindleRotation}deg)`,
-              transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)'
-            }}
-          >
-            {TOP_PROJECTS.map((project, idx) => {
-              const cardAngle = idx * anglePerCard;
-              // Angle distance from active center card (normalized -180 to 180)
-              let delta = (cardAngle + spindleRotation) % 360;
-              if (delta > 180) delta -= 360;
-              if (delta < -180) delta += 360;
-              const isFront = Math.abs(delta) < 15;
-              const isAdjacent = Math.abs(delta) < 55;
-              const isFarBack = Math.abs(delta) > 95;
+          {TOP_PROJECTS.map((project, index) => {
+            // Cards stacked directly on top of each other: card 0 on top, card 9 at bottom
+            const zIndex = totalCards - index;
 
-              return (
-                <div
-                  key={project.id}
-                  onClick={() => {
-                    if (!isFront) rotateTo(idx);
-                  }}
+            return (
+              <div
+                key={project.id}
+                ref={(el) => (cardsRef.current[index] = el)}
+                style={{ zIndex }}
+                className="absolute inset-0 w-full h-full rounded-3xl bg-[#15151A] border border-white/[0.14] p-8 md:p-12 shadow-[0_25px_60px_rgba(0,0,0,0.95)] flex flex-col justify-between overflow-hidden will-change-transform"
+              >
+                {/* Background Ambient Radial Glow */}
+                <div 
+                  className="absolute inset-0 pointer-events-none opacity-40"
                   style={{
-                    transform: `rotateY(${cardAngle}deg) translateZ(${radius}px)`,
-                    transformStyle: 'preserve-3d',
-                    opacity: isFront ? 1 : isAdjacent ? 0.45 : isFarBack ? 0.08 : 0.25,
-                    pointerEvents: isFront ? 'auto' : 'auto',
-                    cursor: isFront ? 'default' : 'pointer'
+                    background: `radial-gradient(ellipse at 80% 20%, rgba(204, 255, 0, 0.06) 0%, transparent 60%)`
                   }}
-                  className={`absolute inset-0 w-full h-full rounded-3xl p-8 sm:p-10 flex flex-col justify-between border transition-opacity duration-500 shadow-2xl ${
-                    isFront
-                      ? 'bg-[#15151A] border-[#CCFF00]/50 shadow-[0_20px_60px_rgba(0,0,0,0.95),0_0_40px_rgba(204,255,0,0.1)] ring-1 ring-[#CCFF00]/30'
-                      : 'bg-[#111116] border-white/[0.1] hover:border-[#CCFF00]/40'
-                  }`}
-                >
-                  {/* Subtle Top Meta */}
-                  <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
-                    <div className="flex items-center gap-3">
-                      <span className="text-xs font-mono font-bold text-[#CCFF00]">
-                        PROJECT {project.projectNumber} // 10
-                      </span>
-                      <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-zinc-300">
-                        {project.category}
-                      </span>
-                    </div>
+                />
 
-                    <div className="flex items-center gap-2">
-                      <span className="text-[11px] font-mono text-emerald-400 flex items-center gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                        {project.status}
-                      </span>
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="w-8 h-8 rounded-full bg-white/[0.06] hover:bg-[#CCFF00] hover:text-black flex items-center justify-center text-white/80 transition-colors"
-                        title="GitHub Repository"
-                      >
-                        <Github className="w-4 h-4" />
-                      </a>
-                    </div>
+                {/* Top Meta Bar */}
+                <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.08] pb-6">
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-mono font-bold text-[#CCFF00]">
+                      PROJECT {project.projectNumber} // 10
+                    </span>
+                    <span className="text-xs font-mono px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-zinc-300 uppercase">
+                      {project.category}
+                    </span>
                   </div>
 
-                  {/* Main Project Details */}
-                  <div className="my-auto py-4 space-y-4">
-                    <h3 className="text-2xl sm:text-4xl md:text-5xl font-bold text-[#F4F4F6] tracking-tight">
-                      {project.title}
-                    </h3>
-                    <p className="text-sm sm:text-base font-mono text-[#CCFF00]">
-                      {project.tagline}
-                    </p>
-                    <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-light line-clamp-3">
-                      {project.description}
-                    </p>
-
-                    {/* Architecture Specs Highlight Pills */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2">
-                      {project.architectureHighlights.map((arch, aIdx) => (
-                        <div key={aIdx} className="p-3 rounded-xl bg-black/40 border border-white/[0.06]">
-                          <span className="text-[9px] font-mono text-[#CCFF00] block mb-0.5">
-                            SPEC 0{aIdx + 1}
-                          </span>
-                          <span className="text-[11px] text-zinc-200 block leading-tight font-light line-clamp-2">
-                            {arch}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Verified Technology Stack Tags */}
-                    <div className="flex flex-wrap gap-1.5 pt-1">
-                      {project.technologies.map((t) => (
-                        <span
-                          key={t}
-                          className="px-2.5 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] border border-white/[0.08] text-zinc-300"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Bottom Action Bar */}
-                  <div className="pt-4 border-t border-white/[0.08] flex items-center justify-between gap-4">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setActiveProject(project);
-                      }}
-                      className="px-6 py-2.5 rounded-full bg-[#CCFF00] text-[#09090B] font-semibold text-xs tracking-wider uppercase font-mono hover:bg-[#D4FF3F] transition-all hover:scale-105 inline-flex items-center gap-2 shadow-lg"
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-mono text-emerald-400 flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      {project.status}
+                    </span>
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-8 h-8 rounded-full bg-white/[0.06] hover:bg-[#CCFF00] hover:text-[#09090B] flex items-center justify-center text-white/80 transition-colors"
+                      title="View GitHub Repository"
                     >
-                      <span>OPEN CASE STUDY</span>
-                      <ArrowUpRight className="w-4 h-4" />
-                    </button>
+                      <Github className="w-4 h-4" />
+                    </a>
+                  </div>
+                </div>
 
-                    <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
-                      {project.liveUrl && (
-                        <a
-                          href={project.liveUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="px-4 py-2 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-xs font-mono text-[#F4F4F6] transition-colors inline-flex items-center gap-2 border border-white/[0.1]"
-                        >
-                          <span>LIVE DEMO</span>
-                          <ExternalLink className="w-3.5 h-3.5" />
-                        </a>
-                      )}
+                {/* Main Card Content */}
+                <div className="relative z-10 my-auto py-4 space-y-4">
+                  <h3 className="text-2xl sm:text-4xl md:text-5xl font-bold text-[#F4F4F6] tracking-tight">
+                    {project.title}
+                  </h3>
+                  <p className="text-base sm:text-lg text-[#CCFF00] font-mono">
+                    {project.tagline}
+                  </p>
+                  <p className="text-sm sm:text-base text-[#9CA3AF] max-w-3xl leading-relaxed font-light">
+                    {project.description}
+                  </p>
+
+                  {/* Architecture Specs Highlight Pills */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+                    {project.architectureHighlights.map((arch, aIdx) => (
+                      <div key={aIdx} className="p-3.5 rounded-xl bg-black/40 border border-white/[0.06]">
+                        <span className="text-[10px] font-mono text-[#CCFF00] block mb-1">
+                          ARCH SPEC 0{aIdx + 1}
+                        </span>
+                        <span className="text-xs text-zinc-200 font-light block leading-snug">
+                          {arch}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Verified Technology Tags */}
+                  <div className="flex flex-wrap gap-2 pt-2">
+                    {project.technologies.map((t) => (
+                      <span
+                        key={t}
+                        className="px-3 py-1 rounded-md text-xs bg-white/[0.04] border border-white/[0.08] text-[#F4F4F6] font-mono"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Bottom Action Bar */}
+                <div className="relative z-10 pt-6 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-4">
+                  <button
+                    onClick={() => setActiveProject(project)}
+                    className="px-6 py-2.5 rounded-full bg-[#CCFF00] text-[#09090B] font-semibold text-xs tracking-wider uppercase font-mono hover:bg-[#D4FF3F] transition-all hover:scale-105 inline-flex items-center gap-2 shadow-lg"
+                  >
+                    <span>OPEN CASE STUDY</span>
+                    <ArrowUpRight className="w-4 h-4" />
+                  </button>
+
+                  <div className="flex items-center gap-3">
+                    {project.liveUrl && (
                       <a
-                        href={project.githubUrl}
+                        href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-4 py-2 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-xs font-mono text-[#F4F4F6] transition-colors inline-flex items-center gap-2 border border-white/[0.1]"
                       >
-                        <Github className="w-3.5 h-3.5" />
-                        <span>SOURCE CODE</span>
+                        <span>LIVE DEMO</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
                       </a>
-                    </div>
+                    )}
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-2 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-xs font-mono text-[#F4F4F6] transition-colors inline-flex items-center gap-2 border border-white/[0.1]"
+                    >
+                      <Github className="w-3.5 h-3.5" />
+                      <span>SOURCE CODE</span>
+                    </a>
                   </div>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
 
-        {/* Spindle Hint Footer */}
-        <div className="mt-8 flex items-center justify-center gap-6 text-xs font-mono text-zinc-400">
-          <span className="flex items-center gap-1.5">
-            <RotateCw className="w-3.5 h-3.5 text-[#CCFF00]" />
-            SCROLL DOWN OR USE ARROWS TO SPIN THE 3D SPINDLE
-          </span>
-          <span className="hidden sm:inline text-zinc-600">•</span>
-          <span className="hidden sm:inline text-zinc-400">
-            CLICK ANY CURVED CARD TO ROTATE DIRECTLY
-          </span>
+        {/* Scroll Spine Hint */}
+        <div className="mt-8 flex items-center justify-center gap-2 text-xs font-mono text-zinc-400">
+          <ArrowDown className="w-3.5 h-3.5 text-[#CCFF00] animate-bounce" />
+          <span>SCROLL DOWN — CARDS DROP DOWN ONE BY ONE TO REVEAL THE NEXT SYSTEM</span>
         </div>
       </div>
 
-      {/* ============================================================== */}
-      {/* FULL PROJECT CASE STUDY MODAL                                  */}
-      {/* ============================================================== */}
+      {/* FULL PROJECT CASE STUDY MODAL */}
       {activeProject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md">
           <div 
@@ -350,7 +322,7 @@ export function PortfolioStack() {
               <X className="w-5 h-5" />
             </button>
 
-            {/* Modal Header */}
+            {/* Header */}
             <div className="flex items-center gap-3 mb-3">
               <span className="text-xs font-mono text-[#CCFF00] font-semibold">
                 PROJECT {activeProject.projectNumber} // SPECIFICATION
@@ -367,7 +339,7 @@ export function PortfolioStack() {
               {activeProject.tagline}
             </p>
 
-            {/* Problem & Solution Grid */}
+            {/* The Problem & The Solution Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/[0.08]">
                 <h4 className="text-xs font-mono uppercase text-red-400 mb-2 flex items-center gap-1.5 font-semibold">
@@ -421,7 +393,7 @@ export function PortfolioStack() {
               </ul>
             </div>
 
-            {/* Verified Tech Stack */}
+            {/* Technologies */}
             <div className="mb-8">
               <h4 className="text-xs font-mono uppercase text-[#9CA3AF] mb-3 tracking-wider">
                 Verified Technology Stack
@@ -441,7 +413,7 @@ export function PortfolioStack() {
             {/* Authors & Actions */}
             <div className="pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="text-xs font-mono text-[#9CA3AF]">
-                <span>Verified Contributors: </span>
+                <span>Verified Authors: </span>
                 <span className="text-white font-medium">{activeProject.contributors.join(', ')}</span>
               </div>
 

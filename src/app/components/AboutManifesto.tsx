@@ -61,7 +61,7 @@ export function AboutManifesto() {
     <section 
       id="about" 
       ref={containerRef}
-      className="relative py-32 md:py-44 px-6 bg-[#09090B]/80 backdrop-blur-[2px] text-[#F4F4F6] border-t border-white/[0.06] overflow-hidden"
+      className="relative py-32 md:py-44 px-6 bg-transparent text-[#F4F4F6] overflow-hidden"
     >
       {/* Background Architectural Grid Lines */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]">

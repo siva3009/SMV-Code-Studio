@@ -48,7 +48,7 @@ const PILLARS: Pillar[] = [
 
 export function WhyTriCodeX() {
   return (
-    <section id="why-us" className="relative py-32 px-6 bg-[#09090B]/80 backdrop-blur-[2px] border-t border-white/[0.06] overflow-hidden">
+    <section id="why-us" className="relative py-32 px-6 bg-transparent overflow-hidden">
       <div className="relative max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/[0.08] pb-8 mb-16 gap-6">

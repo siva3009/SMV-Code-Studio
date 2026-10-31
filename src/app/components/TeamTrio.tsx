@@ -1,5 +1,5 @@
 import { useState, useRef, MouseEvent } from 'react';
-import { Github, Linkedin, ExternalLink, Cpu, Terminal, Radio, ShieldCheck, Sparkles, Orbit } from 'lucide-react';
+import { Github, Linkedin, ExternalLink, Cpu, Terminal, Radio, ShieldCheck, Sparkles } from 'lucide-react';
 
 interface TeamMember {
   name: string;
@@ -69,10 +69,10 @@ function MetallicIdentityModule({ member }: { member: TeamMember }) {
     const normX = (x / rect.width) * 2 - 1;
     const normY = (y / rect.height) * 2 - 1;
 
-    // Perspective 3D tilt
+    // Interactive 3D perspective tilt
     setRotation({
-      x: -normY * 10,
-      y: normX * 10
+      x: -normY * 8,
+      y: normX * 8
     });
   };
 
@@ -96,131 +96,123 @@ function MetallicIdentityModule({ member }: { member: TeamMember }) {
       }`}
     >
       {/* ============================================================== */}
-      {/* 1. METALLIC CARBON/TITANIUM BASE CARD WITH ETCHED CIRCUIT WAFER */}
+      {/* 1. DARK METALLIC CARD BASE WITH ETCHED CIRCUIT WAFER PATTERN   */}
       {/* ============================================================== */}
       <div 
         className={`relative w-full rounded-3xl overflow-hidden border p-6 transition-all duration-500 shadow-2xl ${
           member.isCenter 
-            ? 'bg-gradient-to-br from-[#1E1E26] via-[#121217] to-[#0A0A0D] border-[#CCFF00]/40 shadow-[0_25px_60px_rgba(0,0,0,0.9),0_0_40px_rgba(204,255,0,0.12)]' 
-            : 'bg-gradient-to-br from-[#181820] via-[#101014] to-[#0A0A0D] border-white/[0.12] hover:border-white/[0.25] shadow-[0_25px_50px_rgba(0,0,0,0.85)]'
+            ? 'bg-gradient-to-br from-[#1C1A14] via-[#12110D] to-[#0A0906] border-amber-400/50 shadow-[0_25px_60px_rgba(0,0,0,0.95),0_0_35px_rgba(245,158,11,0.15)] ring-1 ring-amber-400/30' 
+            : 'bg-gradient-to-br from-[#18181D] via-[#101014] to-[#0A0A0D] border-white/[0.12] hover:border-amber-400/40 shadow-[0_25px_50px_rgba(0,0,0,0.9)]'
         }`}
         style={{
           minHeight: '580px'
         }}
       >
-        {/* Etched Silicon Circuit Tracks SVG */}
-        <div className="absolute inset-0 pointer-events-none opacity-20 group-hover:opacity-35 transition-opacity duration-700">
+        {/* Etched Gold Circuit Silicon Traces SVG */}
+        <div className="absolute inset-0 pointer-events-none opacity-25 group-hover:opacity-40 transition-opacity duration-700">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id={`circuit-${member.name}`} width="120" height="120" patternUnits="userSpaceOnUse">
-                <path d="M 0 60 L 40 60 L 60 40 L 100 40 L 120 60" fill="none" stroke="#CCFF00" strokeWidth="0.75" opacity="0.4" />
-                <path d="M 60 0 L 60 40 M 60 80 L 60 120" fill="none" stroke="#CCFF00" strokeWidth="0.75" opacity="0.4" />
-                <circle cx="60" cy="40" r="2.5" fill="#CCFF00" opacity="0.6" />
-                <circle cx="40" cy="60" r="2" fill="#CCFF00" opacity="0.5" />
-                <path d="M 20 120 L 20 100 L 40 80 L 80 80 L 100 100 L 120 100" fill="none" stroke="#CCFF00" strokeWidth="0.5" opacity="0.3" />
+                <path d="M 0 60 L 40 60 L 60 40 L 100 40 L 120 60" fill="none" stroke="#F59E0B" strokeWidth="0.75" opacity="0.4" />
+                <path d="M 60 0 L 60 40 M 60 80 L 60 120" fill="none" stroke="#F59E0B" strokeWidth="0.75" opacity="0.4" />
+                <circle cx="60" cy="40" r="2.5" fill="#FBBF24" opacity="0.6" />
+                <circle cx="40" cy="60" r="2" fill="#FBBF24" opacity="0.5" />
+                <path d="M 20 120 L 20 100 L 40 80 L 80 80 L 100 100 L 120 100" fill="none" stroke="#F59E0B" strokeWidth="0.5" opacity="0.3" />
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill={`url(#circuit-${member.name})`} />
           </svg>
         </div>
 
-        {/* Brushed Metallic Sheen Overlay */}
+        {/* Ambient Projector Light Cone from NFC Chip */}
         <div 
-          className="absolute inset-0 pointer-events-none opacity-10 mix-blend-overlay"
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full blur-3xl pointer-events-none opacity-20 group-hover:opacity-45 transition-opacity duration-500"
           style={{
-            backgroundImage: `repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 4px)`
-          }}
-        />
-
-        {/* Ambient Glow from Center Chip */}
-        <div 
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 w-48 h-48 rounded-full blur-3xl pointer-events-none opacity-25 group-hover:opacity-50 transition-opacity duration-500"
-          style={{
-            background: member.isCenter ? 'radial-gradient(circle, #CCFF00 0%, transparent 70%)' : 'radial-gradient(circle, #06b6d4 0%, transparent 70%)'
+            background: 'radial-gradient(circle, rgba(245, 158, 11, 0.6) 0%, transparent 70%)'
           }}
         />
 
         {/* ============================================================== */}
-        {/* 2. PROJECTING HOLOGRAPHIC HUD IDENTITY PLATE (Z-SPACE ELEVATED) */}
+        {/* 2. FLOATING AMBER HOLOGRAPHIC HUD IDENTITY PLATE (translateZ)  */}
         {/* ============================================================== */}
         <div 
           style={{
-            transform: isHovered ? 'translateZ(48px) scale(1.02)' : 'translateZ(24px)',
+            transform: isHovered ? 'translateZ(55px) scale(1.02)' : 'translateZ(28px)',
             transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
           }}
           className={`relative z-20 rounded-2xl p-5 backdrop-blur-xl border transition-all duration-300 ${
             member.isCenter 
-              ? 'bg-[#0E0E14]/90 border-[#CCFF00]/50 shadow-[0_0_30px_rgba(204,255,0,0.15)] ring-1 ring-[#CCFF00]/30' 
-              : 'bg-[#0E0E14]/85 border-[#CCFF00]/35 hover:border-[#CCFF00]/60 shadow-[0_0_25px_rgba(204,255,0,0.08)]'
+              ? 'bg-[#100F0A]/90 border-amber-400/60 shadow-[0_0_35px_rgba(245,158,11,0.22)] ring-1 ring-amber-400/40' 
+              : 'bg-[#100F0A]/85 border-amber-400/40 hover:border-amber-400/70 shadow-[0_0_25px_rgba(245,158,11,0.12)]'
           }`}
         >
-          {/* Cybernetic Reticle Corner Brackets (┌ ┐ └ ┘) */}
-          <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-[#CCFF00]" />
-          <div className="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-[#CCFF00]" />
-          <div className="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-[#CCFF00]" />
-          <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-[#CCFF00]" />
+          {/* Cybernetic Reticle Corner Brackets in Gold/Amber (┌ ┐ └ ┘) */}
+          <div className="absolute top-2 left-2 w-3.5 h-3.5 border-t-2 border-l-2 border-amber-400" />
+          <div className="absolute top-2 right-2 w-3.5 h-3.5 border-t-2 border-r-2 border-amber-400" />
+          <div className="absolute bottom-2 left-2 w-3.5 h-3.5 border-b-2 border-l-2 border-amber-400" />
+          <div className="absolute bottom-2 right-2 w-3.5 h-3.5 border-b-2 border-r-2 border-amber-400" />
 
           {/* Top Hologram Header Bar */}
-          <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#CCFF00]/25 text-[10px] font-mono">
-            <span className="text-[#CCFF00] tracking-widest flex items-center gap-1.5 font-bold">
-              <span className="w-2 h-2 rounded-full bg-[#CCFF00] animate-ping" />
+          <div className="flex items-center justify-between pb-3 mb-4 border-b border-amber-400/25 text-[10px] font-mono">
+            <span className="text-amber-400 tracking-widest flex items-center gap-1.5 font-bold">
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
               BIO-STATUS // ACTIVE
             </span>
-            <span className="text-zinc-400 tracking-wider">
+            <span className="text-amber-200/70 tracking-wider">
               {member.idCode}
             </span>
           </div>
 
-          {/* Grid Layout: Portrait on Left, Technical Readout on Right */}
+          {/* Holographic Layout: Portrait on Left, Technical Readout on Right */}
           <div className="grid grid-cols-12 gap-4 items-start">
-            {/* LEFT: Portrait Cutout in Holographic Frame */}
+            {/* LEFT: Portrait Cutout in Golden Hologram Frame */}
             <div className="col-span-5 flex flex-col items-center">
-              <div className="relative w-full aspect-square rounded-xl overflow-hidden border border-[#CCFF00]/40 bg-black/60 shadow-[0_0_15px_rgba(204,255,0,0.1)] group-hover:border-[#CCFF00] transition-colors">
+              <div className="relative w-full aspect-square rounded-xl overflow-hidden border border-amber-400/50 bg-black/60 shadow-[0_0_15px_rgba(245,158,11,0.2)] group-hover:border-amber-300 transition-colors">
                 <img
                   src={member.image}
                   alt={member.name}
                   className="w-full h-full object-cover object-top filter grayscale contrast-125 group-hover:grayscale-0 transition-all duration-500"
                   onError={(e) => {
-                    e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=0A0A0D&color=CCFF00&size=300`;
+                    e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=0A0906&color=F59E0B&size=300`;
                   }}
                 />
                 {/* Holographic Scanline Grid */}
                 <div 
-                  className="absolute inset-0 pointer-events-none opacity-20"
+                  className="absolute inset-0 pointer-events-none opacity-25"
                   style={{
-                    backgroundImage: 'linear-gradient(rgba(204,255,0,0.3) 1px, transparent 1px)',
+                    backgroundImage: 'linear-gradient(rgba(245,158,11,0.3) 1px, transparent 1px)',
                     backgroundSize: '100% 4px'
                   }}
                 />
               </div>
 
               {/* Strong All-Caps Typography Name */}
-              <h3 className="mt-3 text-sm font-bold text-white tracking-wider text-center uppercase font-mono group-hover:text-[#CCFF00] transition-colors">
+              <h3 className="mt-3 text-sm font-bold text-white tracking-wider text-center uppercase font-mono group-hover:text-amber-400 transition-colors">
                 {member.name}
               </h3>
-              <span className="text-[9px] font-mono text-[#CCFF00]/80 tracking-tight text-center">
+              <span className="text-[9px] font-mono text-amber-400/80 tracking-tight text-center">
                 {member.clearance}
               </span>
             </div>
 
-            {/* RIGHT: Technical Identity Details & Real-Time Audio Telemetry Equalizer */}
+            {/* RIGHT: Technical Telemetry & Pulsing Audio Equalizer Bars */}
             <div className="col-span-7 flex flex-col justify-between h-full space-y-3">
-              {/* Telemetry Audio / Frequency Equalizer Bars */}
-              <div className="p-2.5 rounded-lg bg-black/50 border border-[#CCFF00]/20">
-                <div className="flex items-center justify-between text-[9px] font-mono text-[#CCFF00] mb-1.5">
+              {/* Telemetry Audio / Frequency Equalizer Bars in Amber */}
+              <div className="p-2.5 rounded-lg bg-black/60 border border-amber-400/25">
+                <div className="flex items-center justify-between text-[9px] font-mono text-amber-400 mb-1.5">
                   <span>FREQ // SIGNAL</span>
                   <span>99.8%</span>
                 </div>
-                {/* 8 Dynamic Animated Frequency Bars */}
+                {/* 8 Dynamic Frequency Bars matching reference photo */}
                 <div className="flex items-end justify-between h-7 gap-1 px-1">
-                  {[45, 80, 60, 95, 70, 85, 55, 90].map((height, i) => (
+                  {[40, 85, 60, 95, 75, 90, 50, 85].map((height, i) => (
                     <div
                       key={i}
-                      className="w-full rounded-t bg-[#CCFF00] opacity-80"
+                      className="w-full rounded-t bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,0.6)]"
                       style={{
                         height: `${height}%`,
                         animation: `eq-bounce 1.${2 + (i % 5)}s ease-in-out infinite alternate`,
-                        animationDelay: `${i * 0.12}s`
+                        animationDelay: `${i * 0.1}s`
                       }}
                     />
                   ))}
@@ -242,7 +234,7 @@ function MetallicIdentityModule({ member }: { member: TeamMember }) {
                 <span className="text-[9px] font-mono text-zinc-500 uppercase block tracking-wider">
                   SYSTEM CORE SPEC
                 </span>
-                <span className="text-[11px] text-[#CCFF00] font-mono block leading-snug">
+                <span className="text-[11px] text-amber-400 font-mono block leading-snug">
                   {member.keyHighlight}
                 </span>
               </div>
@@ -259,7 +251,7 @@ function MetallicIdentityModule({ member }: { member: TeamMember }) {
             {member.coreStack.map((tech) => (
               <span
                 key={tech}
-                className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#CCFF00]/10 border border-[#CCFF00]/30 text-[#CCFF00]"
+                className="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-400/10 border border-amber-400/30 text-amber-300"
               >
                 {tech}
               </span>
@@ -268,13 +260,13 @@ function MetallicIdentityModule({ member }: { member: TeamMember }) {
         </div>
 
         {/* ============================================================== */}
-        {/* 3. CENTER ILLUMINATED NFC / SECURE HARDWARE CHIP ON BASE CARD  */}
+        {/* 3. CENTER ILLUMINATED GOLDEN NFC HARDWARE CHIP ON BASE CARD    */}
         {/* ============================================================== */}
         <div className="relative mt-8 pt-4 flex items-center justify-between border-t border-white/[0.08]">
-          {/* Laser-Etched NFC Hardware Plate */}
+          {/* Laser-Etched Golden NFC Hardware Plate */}
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#252530] via-black to-[#181820] border border-[#CCFF00]/50 shadow-[0_0_15px_rgba(204,255,0,0.25)] flex flex-col items-center justify-center p-1 group-hover:border-[#CCFF00] transition-colors">
-              <span className="text-[11px] font-bold font-mono tracking-widest text-[#CCFF00]">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#2A2414] via-black to-[#1A160A] border border-amber-400/60 shadow-[0_0_18px_rgba(245,158,11,0.3)] flex flex-col items-center justify-center p-1 group-hover:border-amber-300 transition-colors">
+              <span className="text-[11px] font-bold font-mono tracking-widest text-amber-400">
                 NFC
               </span>
               <span className="text-[7px] font-mono text-zinc-400">
@@ -285,7 +277,7 @@ function MetallicIdentityModule({ member }: { member: TeamMember }) {
               <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 block">
                 METALLIC IDENTITY MODULE
               </span>
-              <span className="text-[11px] font-mono text-[#CCFF00] font-semibold block">
+              <span className="text-[11px] font-mono text-amber-400 font-semibold block">
                 TRICODEX // SECURE KEY
               </span>
             </div>
@@ -297,7 +289,7 @@ function MetallicIdentityModule({ member }: { member: TeamMember }) {
               href={member.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-9 h-9 rounded-xl bg-white/[0.06] hover:bg-[#CCFF00] hover:text-[#09090B] border border-white/[0.12] hover:border-[#CCFF00] flex items-center justify-center text-zinc-300 transition-all shadow-md"
+              className="w-9 h-9 rounded-xl bg-white/[0.06] hover:bg-amber-400 hover:text-[#09090B] border border-white/[0.12] hover:border-amber-400 flex items-center justify-center text-zinc-300 transition-all shadow-md"
               title="Verified GitHub Profile"
             >
               <Github className="w-4 h-4" />
@@ -306,7 +298,7 @@ function MetallicIdentityModule({ member }: { member: TeamMember }) {
               href={member.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-9 h-9 rounded-xl bg-white/[0.06] hover:bg-[#CCFF00] hover:text-[#09090B] border border-white/[0.12] hover:border-[#CCFF00] flex items-center justify-center text-zinc-300 transition-all shadow-md"
+              className="w-9 h-9 rounded-xl bg-white/[0.06] hover:bg-amber-400 hover:text-[#09090B] border border-white/[0.12] hover:border-amber-400 flex items-center justify-center text-zinc-300 transition-all shadow-md"
               title="Verified LinkedIn Profile"
             >
               <Linkedin className="w-4 h-4" />
@@ -326,8 +318,8 @@ export function TeamTrio() {
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/[0.08] pb-8 mb-16 gap-6">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <span className="w-2 h-2 rounded-full bg-[#CCFF00] shadow-[0_0_10px_#CCFF00]" />
-              <span className="text-xs font-mono tracking-widest text-[#CCFF00] uppercase">
+              <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_10px_#F59E0B]" />
+              <span className="text-xs font-mono tracking-widest text-amber-400 uppercase">
                 04. METALLIC IDENTITY MODULES
               </span>
             </div>
@@ -347,14 +339,6 @@ export function TeamTrio() {
           ))}
         </div>
       </div>
-
-      <style>{`
-        @keyframes eq-bounce {
-          0% { height: 25%; opacity: 0.5; }
-          50% { height: 95%; opacity: 1; }
-          100% { height: 40%; opacity: 0.7; }
-        }
-      `}</style>
     </section>
   );
 }

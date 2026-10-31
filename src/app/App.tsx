@@ -42,12 +42,27 @@ export default function App() {
 
   return (
     <div className="relative w-full min-h-screen bg-[#070709] text-[#F4F4F6] selection:bg-[#CCFF00] selection:text-[#09090B]">
-      {/* GLOBAL TWINKLING STARFIELD BACKGROUND ACROSS ENTIRE WEBSITE */}
+      {/* ============================================================== */}
+      {/* GLOBAL SINGLE CONTINUOUS BACKGROUND ACROSS ENTIRE WEBSITE      */}
+      {/* Twinkling stars + aurora glow flow continuously top-to-bottom  */}
+      {/* ============================================================== */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+        {/* Continuous Twinkling Starfield */}
         <div className="stars-layer-1" />
         <div className="stars-layer-2" />
         <div className="stars-layer-3" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#070709]/10 to-[#070709]/40" />
+
+        {/* Continuous Aurora Ribbons & Ambient Neon Glow Atmosphere */}
+        <div className="aurora-container">
+          <div className="aurora-ribbon ribbon-1" />
+          <div className="aurora-ribbon ribbon-2" />
+          <div className="aurora-ribbon ribbon-3" />
+          <div className="aurora-ribbon ribbon-4" />
+          <div className="aurora-ribbon ribbon-5" />
+          <div className="aurora-glow glow-1" />
+          <div className="aurora-glow glow-2" />
+          <div className="aurora-glow glow-3" />
+        </div>
       </div>
 
       <div className="relative z-10">

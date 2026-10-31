@@ -42,7 +42,7 @@ export function ConversionContact() {
   };
 
   return (
-    <section id="contact" className="relative py-32 px-6 bg-[#09090B]/80 backdrop-blur-[2px] border-t border-white/[0.06] overflow-hidden">
+    <section id="contact" className="relative py-32 px-6 bg-transparent overflow-hidden">
       <div className="relative max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
