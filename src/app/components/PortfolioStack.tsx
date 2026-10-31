@@ -43,18 +43,22 @@ export function PortfolioStack() {
         rotateZ: 0,
         scale: 1,
         opacity: 1,
+        visibility: 'visible',
+        pointerEvents: 'auto',
         transformPerspective: 1400
       });
 
-      // Subsequent cards are positioned slightly coiled on the spine above/behind
+      // Subsequent cards are positioned above and kept completely hidden until triggered
       for (let i = 1; i < cards.length; i++) {
         gsap.set(cards[i], {
-          yPercent: -15,
-          rotateX: -14,
-          rotateY: 20,
-          rotateZ: 2,
-          scale: 0.92,
-          opacity: i === 1 ? 0.35 : 0,
+          yPercent: -30,
+          rotateX: -16,
+          rotateY: 0,
+          rotateZ: 0,
+          scale: 0.94,
+          opacity: 0,
+          visibility: 'hidden',
+          pointerEvents: 'none',
           transformPerspective: 1400
         });
       }
@@ -66,7 +70,7 @@ export function PortfolioStack() {
           start: 'top top',
           end: `+=${(totalCards - 1) * 900}`,
           pin: true,
-          scrub: 1,
+          scrub: 0.6,
           anticipatePin: 1,
           onUpdate: (self) => {
             const step = Math.min(
@@ -83,50 +87,42 @@ export function PortfolioStack() {
         const currentCard = cards[i];
         const nextCard = cards[i + 1];
 
-        // 1. Current card rotates and spirals DOWN out of view
+        // 1. Current card rotates along spinal axis and drops downwards cleanly
         tl.to(
           currentCard,
           {
-            yPercent: 125,
-            rotateX: 24,
-            rotateY: -22,
-            rotateZ: -6,
-            scale: 0.88,
+            yPercent: 120,
+            rotateX: 20,
+            rotateZ: -4,
+            scale: 0.9,
             opacity: 0,
             duration: 1,
-            ease: 'power1.inOut'
+            ease: 'power2.inOut',
+            onStart: () => {
+              gsap.set(nextCard, { visibility: 'visible' });
+            },
+            onComplete: () => {
+              gsap.set(currentCard, { visibility: 'hidden', pointerEvents: 'none' });
+            }
           },
           `step-${i}`
         );
 
-        // 2. Next card rotates down into the center foreground
+        // 2. Next card descends from top/spine into active center view
         tl.to(
           nextCard,
           {
             yPercent: 0,
             rotateX: 0,
-            rotateY: 0,
             rotateZ: 0,
             scale: 1,
             opacity: 1,
+            pointerEvents: 'auto',
             duration: 1,
-            ease: 'power1.inOut'
+            ease: 'power2.inOut'
           },
           `step-${i}`
         );
-
-        // 3. The card after next becomes partially visible in the queue
-        if (i + 2 < cards.length) {
-          tl.to(
-            cards[i + 2],
-            {
-              opacity: 0.35,
-              duration: 1,
-              ease: 'power1.inOut'
-            },
-            `step-${i}`
-          );
-        }
       }
     }, containerRef);
 
@@ -284,7 +280,7 @@ export function PortfolioStack() {
                     zIndex,
                     transformStyle: 'preserve-3d'
                   }}
-                  className="absolute inset-0 w-full h-full rounded-3xl bg-[#15151A] border border-white/[0.14] p-8 md:p-12 shadow-[0_25px_60px_rgba(0,0,0,0.95)] flex flex-col justify-between overflow-hidden will-change-transform"
+                  className="absolute inset-0 w-full h-full rounded-3xl bg-[#131318] border border-white/[0.14] p-8 md:p-12 shadow-[0_30px_70px_rgba(0,0,0,0.95)] flex flex-col justify-between overflow-hidden will-change-transform"
                 >
                   {/* Subtle Background Radial Ambient Light */}
                   <div 

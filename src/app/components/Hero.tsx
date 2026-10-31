@@ -3,8 +3,14 @@ import { motion } from 'motion/react';
 export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent gsap-section">
-      {/* TWO GLOWING NEON LIGHTS — EXCLUSIVE TO HERO SECTION ONLY */}
-      <div className="aurora-container pointer-events-none">
+      {/* TWO GLOWING NEON LIGHTS — EXCLUSIVE TO HERO SECTION ONLY (CONTAINED & SLOW-MOVING) */}
+      <div 
+        className="aurora-container pointer-events-none"
+        style={{
+          maskImage: 'linear-gradient(to bottom, black 0%, black 75%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 75%, transparent 100%)'
+        }}
+      >
         <div className="aurora-ribbon ribbon-1" />
         <div className="aurora-ribbon ribbon-2" />
         <div className="aurora-ribbon ribbon-3" />
