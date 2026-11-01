@@ -89,6 +89,7 @@ export const TOP_PROJECTS: Project[] = [
     ],
     technologies: ['JavaScript', 'PHP / Node.js', 'MySQL', 'Tailwind CSS', 'REST APIs'],
     githubUrl: 'https://github.com/Shameem1105/construction-management',
+    liveUrl: 'https://construction-management-system-ecru.vercel.app/',
     status: 'Client Production Platform',
     architectureHighlights: [
       'Relational database schema with transactional ledger constraints',
@@ -114,8 +115,8 @@ export const TOP_PROJECTS: Project[] = [
       'High-accessibility touch-first interface'
     ],
     technologies: ['JavaScript', 'Python', 'Web Audio API', 'SpeechSynthesis API', 'Machine Learning Models'],
-
     githubUrl: 'https://github.com/Shameem1105/palash-AI',
+    liveUrl: 'https://palash-ai.vercel.app/',
     status: 'SIH Innovation Prototype',
     architectureHighlights: [
       'Client-side edge inference eliminating cloud API latency',
@@ -142,6 +143,7 @@ export const TOP_PROJECTS: Project[] = [
     ],
     technologies: ['TypeScript', 'React', 'Node.js', 'WebSockets', 'Tailwind CSS'],
     githubUrl: 'https://github.com/VasiharanB/cricket-conquest-ipl-auction',
+    liveUrl: 'https://cricket-conquest-ipl-auction.vercel.app/',
     status: 'Symposium Live System',
     architectureHighlights: [
       'Single-threaded atomic bid serialization preventing concurrency races',
