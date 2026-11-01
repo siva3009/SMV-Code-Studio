@@ -27,7 +27,7 @@ export function Navigation() {
             isScrolled ? 'scale-95' : 'scale-100'
           }`}>
             <img 
-              src="/images/logo.jpeg" 
+              src="./images/logo.jpeg" 
               alt="TriCodeX Logo" 
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               onError={(e) => {

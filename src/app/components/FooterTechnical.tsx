@@ -14,7 +14,7 @@ export function FooterTechnical() {
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl overflow-hidden border border-white/20 bg-[#15151A] flex items-center justify-center">
                 <img 
-                  src="/images/logo.jpeg" 
+                  src="./images/logo.jpeg" 
                   alt="TriCodeX Logo" 
                   className="w-full h-full object-cover"
                   onError={(e) => {

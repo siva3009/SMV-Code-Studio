@@ -32,7 +32,6 @@ export default function App() {
         scrub: true
       }
     });
-
     // Refresh ScrollTrigger once DOM has settled
     const timeout = setTimeout(() => {
       ScrollTrigger.refresh();
