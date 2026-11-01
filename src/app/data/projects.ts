@@ -9,7 +9,6 @@ export interface Project {
   solution: string;
   features: string[];
   technologies: string[];
-  contributors: string[];
   githubUrl: string;
   liveUrl?: string;
   status: string;
@@ -35,7 +34,6 @@ export const TOP_PROJECTS: Project[] = [
       'Scalable candidate session management'
     ],
     technologies: ['TypeScript', 'React', 'HTML5', 'Node.js', 'Vite', 'Tailwind CSS'],
-    contributors: ['Mohammed Shameem (Shameem1105)', 'Vasiharan (VasiharanB)'],
     githubUrl: 'https://github.com/Shameem1105/Aethon-Sentinal',
     liveUrl: 'https://aethon-sentinel.vercel.app/',
     status: 'Live Web Platform',
@@ -63,7 +61,6 @@ export const TOP_PROJECTS: Project[] = [
       'Fast CDN-delivered imagery with progressive loading'
     ],
     technologies: ['TypeScript', 'React', 'Vite', 'Tailwind CSS', 'Lucide React'],
-    contributors: ['Mohammed Shameem (Shameem1105)', 'Sivaram (siva3009)'],
     githubUrl: 'https://github.com/Shameem1105/Architect',
     liveUrl: 'https://architect-theta-two.vercel.app/',
     status: 'Live Client Platform',
@@ -91,7 +88,6 @@ export const TOP_PROJECTS: Project[] = [
       'Automated invoice and PDF audit trail generation'
     ],
     technologies: ['JavaScript', 'PHP / Node.js', 'MySQL', 'Tailwind CSS', 'REST APIs'],
-    contributors: ['Mohammed Shameem (Shameem1105)', 'Vasiharan (VasiharanB)'],
     githubUrl: 'https://github.com/Shameem1105/construction-management',
     status: 'Client Production Platform',
     architectureHighlights: [
@@ -118,7 +114,7 @@ export const TOP_PROJECTS: Project[] = [
       'High-accessibility touch-first interface'
     ],
     technologies: ['JavaScript', 'Python', 'Web Audio API', 'SpeechSynthesis API', 'Machine Learning Models'],
-    contributors: ['Mohammed Shameem (Shameem1105)'],
+
     githubUrl: 'https://github.com/Shameem1105/palash-AI',
     status: 'SIH Innovation Prototype',
     architectureHighlights: [
@@ -145,7 +141,6 @@ export const TOP_PROJECTS: Project[] = [
       'Instant squad analytics and strength comparison'
     ],
     technologies: ['TypeScript', 'React', 'Node.js', 'WebSockets', 'Tailwind CSS'],
-    contributors: ['Vasiharan (VasiharanB)', 'Mohammed Shameem (Shameem1105)'],
     githubUrl: 'https://github.com/VasiharanB/cricket-conquest-ipl-auction',
     status: 'Symposium Live System',
     architectureHighlights: [
@@ -172,7 +167,6 @@ export const TOP_PROJECTS: Project[] = [
       'Automated query complexity scoring'
     ],
     technologies: ['TypeScript', 'React', 'SQL.js (WASM)', 'Tailwind CSS', 'Gemini AI API'],
-    contributors: ['Sivaram (siva3009)'],
     githubUrl: 'https://github.com/siva3009/SQL-Learning-Assistant-',
     status: 'Completed Platform',
     architectureHighlights: [
@@ -199,7 +193,6 @@ export const TOP_PROJECTS: Project[] = [
       'Historical issue telemetry and analytics'
     ],
     technologies: ['Python', 'Django', 'React', 'TypeScript', 'FAISS', 'Google Gemini AI', 'PostgreSQL'],
-    contributors: ['Vasiharan (VasiharanB)'],
     githubUrl: 'https://github.com/VasiharanB/Smart-Issue-Tracker',
     status: 'Completed Prototype',
     architectureHighlights: [
@@ -226,7 +219,6 @@ export const TOP_PROJECTS: Project[] = [
       'Multi-agent workflow automation pipelines'
     ],
     technologies: ['TypeScript', 'React', 'Tailwind CSS', 'Vite', 'Lucide React', 'AI SDK'],
-    contributors: ['Sivaram (siva3009)'],
     githubUrl: 'https://github.com/siva3009/Nebula-Workspace-AI',
     status: 'Active Open Source',
     architectureHighlights: [
@@ -253,7 +245,6 @@ export const TOP_PROJECTS: Project[] = [
       'FastMCP integration endpoints for AI IDE querying'
     ],
     technologies: ['Python', 'SQL', 'FastMCP', 'SQLite', 'Docker', 'AST Parser', 'Pytest'],
-    contributors: ['Mohammed Shameem (Shameem1105)'],
     githubUrl: 'https://github.com/Shameem1105/DeviceCensus',
     status: 'Active Repository',
     architectureHighlights: [
@@ -280,7 +271,6 @@ export const TOP_PROJECTS: Project[] = [
       'Containerized RESTful microservice API'
     ],
     technologies: ['Python', 'AI Retrieval', 'FastAPI', 'SQLite', 'Docker', 'Pytest'],
-    contributors: ['Vasiharan (VasiharanB)'],
     githubUrl: 'https://github.com/VasiharanB/SlabSense-AI',
     status: 'Active Repository',
     architectureHighlights: [
