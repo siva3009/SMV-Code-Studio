@@ -161,62 +161,62 @@ export function PortfolioStack() {
     <section 
       id="portfolio" 
       ref={containerRef}
-      className="relative min-h-screen py-24 px-6 bg-transparent overflow-hidden flex flex-col justify-center"
+      className="relative min-h-screen py-8 sm:py-12 px-4 sm:px-6 bg-transparent overflow-hidden flex flex-col justify-center"
     >
-      <div className="relative max-w-6xl mx-auto w-full z-10">
+      <div className="relative max-w-5xl mx-auto w-full z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/[0.08] pb-6 mb-8 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/[0.08] pb-3 sm:pb-4 mb-4 sm:mb-5 gap-3">
           <div>
-            <div className="flex items-center gap-3 mb-3">
+            <div className="flex items-center gap-2.5 mb-1.5">
               <span className="w-2 h-2 rounded-full bg-[#CCFF00] shadow-[0_0_10px_#CCFF00]" />
-              <span className="text-xs font-mono tracking-widest text-[#CCFF00] uppercase flex items-center gap-2">
-                <RotateCw className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '10s' }} />
+              <span className="text-[11px] font-mono tracking-widest text-[#CCFF00] uppercase flex items-center gap-1.5">
+                <RotateCw className="w-3 h-3 animate-spin" style={{ animationDuration: '10s' }} />
                 04 // 3D SPINAL ROTATING CAROUSEL
               </span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-[#F4F4F6] tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-light text-[#F4F4F6] tracking-tight">
               Spinal Rotating Projects // <span className="font-semibold text-white">One by One Descending</span>
             </h2>
           </div>
 
           {/* Spine Progress Counter & Controls */}
-          <div className="flex items-center gap-4">
-            <div className="text-xs font-mono text-[#CCFF00] px-4 py-2 rounded-full bg-[#15151A] border border-[#CCFF00]/30 shadow-md flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            <div className="text-[11px] font-mono text-[#CCFF00] px-3 py-1.5 rounded-full bg-[#15151A] border border-[#CCFF00]/30 shadow-md flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#CCFF00] animate-pulse" />
               <span>SPINE // {currentIndex + 1} OF {totalCards}</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               <button
                 onClick={handlePrev}
                 disabled={currentIndex === 0}
-                className="w-10 h-10 rounded-full bg-[#15151A] border border-white/[0.12] hover:border-[#CCFF00] hover:text-[#CCFF00] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center text-white/80 transition-all shadow-lg"
+                className="w-8 h-8 rounded-full bg-[#15151A] border border-white/[0.12] hover:border-[#CCFF00] hover:text-[#CCFF00] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center text-white/80 transition-all shadow-lg"
                 title="Rotate to Previous Project"
               >
-                <ChevronUp className="w-5 h-5" />
+                <ChevronUp className="w-4 h-4" />
               </button>
               <button
                 onClick={handleNext}
                 disabled={currentIndex === totalCards - 1}
-                className="w-10 h-10 rounded-full bg-[#15151A] border border-white/[0.12] hover:border-[#CCFF00] hover:text-[#CCFF00] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center text-white/80 transition-all shadow-lg"
+                className="w-8 h-8 rounded-full bg-[#15151A] border border-white/[0.12] hover:border-[#CCFF00] hover:text-[#CCFF00] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center text-white/80 transition-all shadow-lg"
                 title="Rotate to Next Project"
               >
-                <ChevronDown className="w-5 h-5" />
+                <ChevronDown className="w-4 h-4" />
               </button>
             </div>
           </div>
         </div>
 
         {/* Project Selector Pills Dial */}
-        <div className="mb-8 overflow-x-auto pb-2 scrollbar-none flex items-center gap-2">
+        <div className="mb-4 sm:mb-5 overflow-x-auto pb-1 scrollbar-none flex items-center gap-1.5">
           {TOP_PROJECTS.map((proj, idx) => {
             const isCurrent = idx === currentIndex;
             return (
               <button
                 key={proj.id}
                 onClick={() => jumpTo(idx)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-mono whitespace-nowrap transition-all duration-300 flex items-center gap-2 border ${
+                className={`px-3 py-1 rounded-full text-[11px] font-mono whitespace-nowrap transition-all duration-300 flex items-center gap-1.5 border ${
                   isCurrent
-                    ? 'bg-[#CCFF00] text-[#09090B] font-bold border-[#CCFF00] shadow-[0_0_15px_rgba(204,255,0,0.35)] scale-105'
+                    ? 'bg-[#CCFF00] text-[#09090B] font-bold border-[#CCFF00] shadow-[0_0_12px_rgba(204,255,0,0.35)] scale-105'
                     : 'bg-[#15151A]/80 text-zinc-400 border-white/[0.08] hover:border-white/[0.25] hover:text-white'
                 }`}
               >
@@ -230,9 +230,9 @@ export function PortfolioStack() {
         {/* ============================================================== */}
         {/* SPINAL ROTATING STACK: CARDS ROTATE AND GO DOWN ONE BY ONE     */}
         {/* ============================================================== */}
-        <div className="grid grid-cols-12 gap-8 items-center">
+        <div className="grid grid-cols-12 gap-6 items-center">
           {/* LEFT: VISUAL 3D SPINAL COLUMN TRACK (VERTEBRAE RAIL) */}
-          <div className="hidden lg:flex col-span-1 flex-col items-center justify-between h-[540px] py-4 relative">
+          <div className="hidden lg:flex col-span-1 flex-col items-center justify-between h-[450px] py-2 relative">
             {/* Glowing Spinal Rail Cable */}
             <div className="absolute top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-[#CCFF00]/40 to-transparent" />
 
@@ -244,12 +244,12 @@ export function PortfolioStack() {
                 <button
                   key={p.id}
                   onClick={() => jumpTo(idx)}
-                  className={`relative z-10 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 ${
+                  className={`relative z-10 w-5 h-5 rounded-full flex items-center justify-center transition-all duration-300 ${
                     isActive
-                      ? 'bg-[#CCFF00] text-[#09090B] font-bold text-[10px] scale-125 shadow-[0_0_12px_#CCFF00] ring-2 ring-[#CCFF00]/50'
+                      ? 'bg-[#CCFF00] text-[#09090B] font-bold text-[9px] scale-125 shadow-[0_0_12px_#CCFF00] ring-2 ring-[#CCFF00]/50'
                       : isPast
-                      ? 'bg-zinc-800 text-zinc-400 border border-white/20 text-[9px]'
-                      : 'bg-[#15151A] text-zinc-500 border border-white/10 text-[9px] hover:border-[#CCFF00]/60 hover:text-white'
+                      ? 'bg-zinc-800 text-zinc-400 border border-white/20 text-[8px]'
+                      : 'bg-[#15151A] text-zinc-500 border border-white/10 text-[8px] hover:border-[#CCFF00]/60 hover:text-white'
                   }`}
                   title={`Spine Node 0${idx + 1}: ${p.title}`}
                 >
@@ -262,7 +262,7 @@ export function PortfolioStack() {
           {/* RIGHT: 3D SPINAL ROTATING CARD DECK */}
           <div 
             ref={deckRef}
-            className="col-span-12 lg:col-span-11 relative w-full h-[580px] sm:h-[620px] rounded-3xl"
+            className="col-span-12 lg:col-span-11 relative w-full h-[460px] sm:h-[480px] rounded-2xl sm:rounded-3xl"
             style={{ 
               perspective: '1400px',
               transformStyle: 'preserve-3d'
@@ -280,7 +280,7 @@ export function PortfolioStack() {
                     zIndex,
                     transformStyle: 'preserve-3d'
                   }}
-                  className="absolute inset-0 w-full h-full rounded-3xl bg-[#131318] border border-white/[0.14] p-8 md:p-12 shadow-[0_30px_70px_rgba(0,0,0,0.95)] flex flex-col justify-between overflow-hidden will-change-transform"
+                  className="absolute inset-0 w-full h-full rounded-2xl sm:rounded-3xl bg-[#131318] border border-white/[0.14] p-5 sm:p-7 md:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.95)] flex flex-col justify-between overflow-hidden will-change-transform"
                 >
                   {/* Subtle Background Radial Ambient Light */}
                   <div 
@@ -291,53 +291,53 @@ export function PortfolioStack() {
                   />
 
                   {/* Top Meta Bar */}
-                  <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.08] pb-6">
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm font-mono font-bold text-[#CCFF00]">
+                  <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-3 sm:pb-4">
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-xs sm:text-sm font-mono font-bold text-[#CCFF00]">
                         PROJECT {project.projectNumber} // 10
                       </span>
-                      <span className="text-xs font-mono px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-zinc-300 uppercase">
+                      <span className="text-[10px] sm:text-xs font-mono px-2.5 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-zinc-300 uppercase">
                         {project.category}
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                      <span className="text-xs font-mono text-emerald-400 flex items-center gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-[11px] font-mono text-emerald-400 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                         {project.status}
                       </span>
                       <a
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-8 h-8 rounded-full bg-white/[0.06] hover:bg-[#CCFF00] hover:text-[#09090B] flex items-center justify-center text-white/80 transition-colors"
+                        className="w-7 h-7 rounded-full bg-white/[0.06] hover:bg-[#CCFF00] hover:text-[#09090B] flex items-center justify-center text-white/80 transition-colors"
                         title="View GitHub Repository"
                       >
-                        <Github className="w-4 h-4" />
+                        <Github className="w-3.5 h-3.5" />
                       </a>
                     </div>
                   </div>
 
                   {/* Main Project Details */}
-                  <div className="relative z-10 my-auto py-4 space-y-4">
-                    <h3 className="text-2xl sm:text-4xl md:text-5xl font-bold text-[#F4F4F6] tracking-tight">
+                  <div className="relative z-10 my-auto py-2 space-y-2 sm:space-y-3">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#F4F4F6] tracking-tight">
                       {project.title}
                     </h3>
-                    <p className="text-base sm:text-lg text-[#CCFF00] font-mono">
+                    <p className="text-xs sm:text-sm text-[#CCFF00] font-mono">
                       {project.tagline}
                     </p>
-                    <p className="text-sm sm:text-base text-[#9CA3AF] max-w-3xl leading-relaxed font-light">
+                    <p className="text-xs sm:text-sm text-[#9CA3AF] max-w-2xl leading-relaxed font-light line-clamp-2">
                       {project.description}
                     </p>
 
                     {/* Architecture Specs Highlight Pills */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
                       {project.architectureHighlights.map((arch, aIdx) => (
-                        <div key={aIdx} className="p-3.5 rounded-xl bg-black/40 border border-white/[0.06]">
-                          <span className="text-[10px] font-mono text-[#CCFF00] block mb-1">
+                        <div key={aIdx} className="p-2 sm:p-2.5 rounded-lg bg-black/40 border border-white/[0.06]">
+                          <span className="text-[9px] font-mono text-[#CCFF00] block mb-0.5">
                             ARCH SPEC 0{aIdx + 1}
                           </span>
-                          <span className="text-xs text-zinc-200 font-light block leading-snug">
+                          <span className="text-[11px] text-zinc-200 font-light block leading-snug line-clamp-2">
                             {arch}
                           </span>
                         </div>
@@ -345,11 +345,11 @@ export function PortfolioStack() {
                     </div>
 
                     {/* Verified Technology Tags */}
-                    <div className="flex flex-wrap gap-2 pt-2">
+                    <div className="flex flex-wrap gap-1.5 pt-1">
                       {project.technologies.map((t) => (
                         <span
                           key={t}
-                          className="px-3 py-1 rounded-md text-xs bg-white/[0.04] border border-white/[0.08] text-[#F4F4F6] font-mono"
+                          className="px-2 py-0.5 rounded text-[10px] sm:text-[11px] bg-white/[0.04] border border-white/[0.08] text-[#F4F4F6] font-mono"
                         >
                           {t}
                         </span>
@@ -358,34 +358,34 @@ export function PortfolioStack() {
                   </div>
 
                   {/* Bottom Action Bar */}
-                  <div className="relative z-10 pt-6 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-4">
+                  <div className="relative z-10 pt-3 sm:pt-4 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-3">
                     <button
                       onClick={() => setActiveProject(project)}
-                      className="px-6 py-2.5 rounded-full bg-[#CCFF00] text-[#09090B] font-semibold text-xs tracking-wider uppercase font-mono hover:bg-[#D4FF3F] transition-all hover:scale-105 inline-flex items-center gap-2 shadow-lg"
+                      className="px-4 sm:px-5 py-2 rounded-full bg-[#CCFF00] text-[#09090B] font-semibold text-[11px] tracking-wider uppercase font-mono hover:bg-[#D4FF3F] transition-all hover:scale-105 inline-flex items-center gap-1.5 shadow-lg"
                     >
                       <span>OPEN CASE STUDY</span>
-                      <ArrowUpRight className="w-4 h-4" />
+                      <ArrowUpRight className="w-3.5 h-3.5" />
                     </button>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2.5">
                       {project.liveUrl && (
                         <a
                           href={project.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-4 py-2 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-xs font-mono text-[#F4F4F6] transition-colors inline-flex items-center gap-2 border border-white/[0.1]"
+                          className="px-3.5 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-[11px] font-mono text-[#F4F4F6] transition-colors inline-flex items-center gap-1.5 border border-white/[0.1]"
                         >
                           <span>LIVE DEMO</span>
-                          <ExternalLink className="w-3.5 h-3.5" />
+                          <ExternalLink className="w-3 h-3" />
                         </a>
                       )}
                       <a
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-4 py-2 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-xs font-mono text-[#F4F4F6] transition-colors inline-flex items-center gap-2 border border-white/[0.1]"
+                        className="px-3.5 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-[11px] font-mono text-[#F4F4F6] transition-colors inline-flex items-center gap-1.5 border border-white/[0.1]"
                       >
-                        <Github className="w-3.5 h-3.5" />
+                        <Github className="w-3 h-3" />
                         <span>SOURCE CODE</span>
                       </a>
                     </div>
@@ -397,7 +397,7 @@ export function PortfolioStack() {
         </div>
 
         {/* Scroll Spine Hint */}
-        <div className="mt-8 flex items-center justify-center gap-2 text-xs font-mono text-zinc-400">
+        <div className="mt-3 sm:mt-4 flex items-center justify-center gap-2 text-[11px] font-mono text-zinc-400">
           <ArrowDown className="w-3.5 h-3.5 text-[#CCFF00] animate-bounce" />
           <span>SCROLL DOWN — CARDS ROTATE AND GO DOWN ONE BY ONE ALONG THE SPINAL RAIL</span>
         </div>
