@@ -97,11 +97,12 @@ if (rootElement) {
   );
 }
 
-// Initialize Lenis safely with GSAP ticker
+// Initialize Lenis safely with GSAP ticker (Snappy 60/120fps scrolling)
 try {
   const lenis = new Lenis({
-    duration: 0.8,
+    duration: 0.45,
     easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true
   } as any);
 
   lenis.on('scroll', () => {

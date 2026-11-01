@@ -324,6 +324,7 @@ export function TechEcosystem() {
     if (!ctx) return;
 
     let animId: number;
+    let isVisible = true;
 
     const resizeCanvas = () => {
       const rect = canvas.getBoundingClientRect();
@@ -336,8 +337,19 @@ export function TechEcosystem() {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
+    // Observer to pause canvas loop when offscreen
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) {
+        cancelAnimationFrame(animId);
+        animId = requestAnimationFrame(render);
+      }
+    }, { threshold: 0.05 });
+    observer.observe(canvas);
+
     // Main 3D Render Loop
     const render = () => {
+      if (!isVisible) return;
       const rect = canvas.getBoundingClientRect();
       const width = rect.width;
       const height = rect.height;
@@ -582,6 +594,7 @@ export function TechEcosystem() {
     render();
 
     return () => {
+      observer.disconnect();
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', resizeCanvas);
     };

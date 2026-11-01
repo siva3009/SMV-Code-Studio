@@ -1,6 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { TOP_PROJECTS, Project } from '../data/projects';
 import { 
   Github, 
@@ -10,152 +8,56 @@ import {
   ArrowUpRight, 
   X, 
   CheckCircle2, 
-  Cpu, 
-  Sparkles,
-  Layers,
-  ArrowDown,
-  RotateCw,
-  Orbit
+  RotateCw, 
+  ArrowDown
 } from 'lucide-react';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export function PortfolioStack() {
   const containerRef = useRef<HTMLElement | null>(null);
-  const deckRef = useRef<HTMLDivElement | null>(null);
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const totalCards = TOP_PROJECTS.length; // 10 verified projects
-
-  // Setup GSAP ScrollTrigger: 3D Spinal Rotation where cards rotate and descend down one by one!
-  useEffect(() => {
-    const cards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
-    if (cards.length < 2) return;
-
-    const ctx = gsap.context(() => {
-      // Set initial positions:
-      // Card 0 is in the active front position
-      gsap.set(cards[0], {
-        yPercent: 0,
-        rotateX: 0,
-        rotateY: 0,
-        rotateZ: 0,
-        scale: 1,
-        opacity: 1,
-        visibility: 'visible',
-        pointerEvents: 'auto',
-        transformPerspective: 1400
-      });
-
-      // Subsequent cards are positioned above and kept completely hidden until triggered
-      for (let i = 1; i < cards.length; i++) {
-        gsap.set(cards[i], {
-          yPercent: -30,
-          rotateX: -16,
-          rotateY: 0,
-          rotateZ: 0,
-          scale: 0.94,
-          opacity: 0,
-          visibility: 'hidden',
-          pointerEvents: 'none',
-          transformPerspective: 1400
-        });
-      }
-
-      // Pinned scrub timeline along the spine
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top top',
-          end: `+=${(totalCards - 1) * 900}`,
-          pin: true,
-          scrub: 0.6,
-          anticipatePin: 1,
-          onUpdate: (self) => {
-            const step = Math.min(
-              totalCards - 1,
-              Math.floor(self.progress * (totalCards - 0.05))
-            );
-            setCurrentIndex(step);
-          }
-        }
-      });
-
-      // Animate each card rotating down along the spine one by one
-      for (let i = 0; i < cards.length - 1; i++) {
-        const currentCard = cards[i];
-        const nextCard = cards[i + 1];
-
-        // 1. Current card rotates along spinal axis and drops downwards cleanly
-        tl.to(
-          currentCard,
-          {
-            yPercent: 120,
-            rotateX: 20,
-            rotateZ: -4,
-            scale: 0.9,
-            opacity: 0,
-            duration: 1,
-            ease: 'power2.inOut',
-            onStart: () => {
-              gsap.set(nextCard, { visibility: 'visible' });
-            },
-            onComplete: () => {
-              gsap.set(currentCard, { visibility: 'hidden', pointerEvents: 'none' });
-            }
-          },
-          `step-${i}`
-        );
-
-        // 2. Next card descends from top/spine into active center view
-        tl.to(
-          nextCard,
-          {
-            yPercent: 0,
-            rotateX: 0,
-            rotateZ: 0,
-            scale: 1,
-            opacity: 1,
-            pointerEvents: 'auto',
-            duration: 1,
-            ease: 'power2.inOut'
-          },
-          `step-${i}`
-        );
-      }
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, [totalCards]);
+  const isThrottledRef = useRef(false);
 
   // Jump smoothly to a specific project on the spine
-  const jumpTo = (targetIdx: number) => {
-    if (!containerRef.current) return;
-    const start = containerRef.current.offsetTop;
-    const totalDist = (totalCards - 1) * 900;
-    const targetScroll = start + (targetIdx / (totalCards - 1)) * totalDist;
-    window.scrollTo({ top: targetScroll, behavior: 'smooth' });
-  };
+  const jumpTo = useCallback((targetIdx: number) => {
+    const validIdx = Math.max(0, Math.min(totalCards - 1, targetIdx));
+    setCurrentIndex(validIdx);
+  }, [totalCards]);
 
-  const handleNext = () => {
-    if (currentIndex < totalCards - 1) jumpTo(currentIndex + 1);
-  };
+  const handleNext = useCallback(() => {
+    setCurrentIndex(prev => Math.min(totalCards - 1, prev + 1));
+  }, [totalCards]);
 
-  const handlePrev = () => {
-    if (currentIndex > 0) jumpTo(currentIndex - 1);
-  };
+  const handlePrev = useCallback(() => {
+    setCurrentIndex(prev => Math.max(0, prev - 1));
+  }, []);
 
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setActiveProject(null);
-      if (e.key === 'ArrowDown') handleNext();
-      if (e.key === 'ArrowUp') handlePrev();
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') handleNext();
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') handlePrev();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex]);
+  }, [handleNext, handlePrev]);
+
+  // High-performance trackpad/mouse wheel gesture on the deck
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    if (isThrottledRef.current) return;
+
+    if (e.deltaY > 25 && currentIndex < totalCards - 1) {
+      isThrottledRef.current = true;
+      handleNext();
+      setTimeout(() => { isThrottledRef.current = false; }, 360);
+    } else if (e.deltaY < -25 && currentIndex > 0) {
+      isThrottledRef.current = true;
+      handlePrev();
+      setTimeout(() => { isThrottledRef.current = false; }, 360);
+    }
+  };
 
   return (
     <section 
@@ -189,7 +91,7 @@ export function PortfolioStack() {
               <button
                 onClick={handlePrev}
                 disabled={currentIndex === 0}
-                className="w-8 h-8 rounded-full bg-[#15151A] border border-white/[0.12] hover:border-[#CCFF00] hover:text-[#CCFF00] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center text-white/80 transition-all shadow-lg"
+                className="w-8 h-8 rounded-full bg-[#15151A] border border-white/[0.12] hover:border-[#CCFF00] hover:text-[#CCFF00] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center text-white/80 transition-all shadow-lg active:scale-95"
                 title="Rotate to Previous Project"
               >
                 <ChevronUp className="w-4 h-4" />
@@ -197,7 +99,7 @@ export function PortfolioStack() {
               <button
                 onClick={handleNext}
                 disabled={currentIndex === totalCards - 1}
-                className="w-8 h-8 rounded-full bg-[#15151A] border border-white/[0.12] hover:border-[#CCFF00] hover:text-[#CCFF00] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center text-white/80 transition-all shadow-lg"
+                className="w-8 h-8 rounded-full bg-[#15151A] border border-white/[0.12] hover:border-[#CCFF00] hover:text-[#CCFF00] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center text-white/80 transition-all shadow-lg active:scale-95"
                 title="Rotate to Next Project"
               >
                 <ChevronDown className="w-4 h-4" />
@@ -214,7 +116,7 @@ export function PortfolioStack() {
               <button
                 key={proj.id}
                 onClick={() => jumpTo(idx)}
-                className={`px-3 py-1 rounded-full text-[11px] font-mono whitespace-nowrap transition-all duration-300 flex items-center gap-1.5 border ${
+                className={`px-3 py-1 rounded-full text-[11px] font-mono whitespace-nowrap transition-all duration-300 flex items-center gap-1.5 border cursor-pointer ${
                   isCurrent
                     ? 'bg-[#CCFF00] text-[#09090B] font-bold border-[#CCFF00] shadow-[0_0_12px_rgba(204,255,0,0.35)] scale-105'
                     : 'bg-[#15151A]/80 text-zinc-400 border-white/[0.08] hover:border-white/[0.25] hover:text-white'
@@ -244,7 +146,7 @@ export function PortfolioStack() {
                 <button
                   key={p.id}
                   onClick={() => jumpTo(idx)}
-                  className={`relative z-10 w-5 h-5 rounded-full flex items-center justify-center transition-all duration-300 ${
+                  className={`relative z-10 w-5 h-5 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
                     isActive
                       ? 'bg-[#CCFF00] text-[#09090B] font-bold text-[9px] scale-125 shadow-[0_0_12px_#CCFF00] ring-2 ring-[#CCFF00]/50'
                       : isPast
@@ -261,26 +163,35 @@ export function PortfolioStack() {
 
           {/* RIGHT: 3D SPINAL ROTATING CARD DECK */}
           <div 
-            ref={deckRef}
-            className="col-span-12 lg:col-span-11 relative w-full h-[460px] sm:h-[480px] rounded-2xl sm:rounded-3xl"
+            onWheel={handleWheel}
+            className="col-span-12 lg:col-span-11 relative w-full h-[460px] sm:h-[480px] rounded-2xl sm:rounded-3xl cursor-default"
             style={{ 
               perspective: '1400px',
               transformStyle: 'preserve-3d'
             }}
           >
             {TOP_PROJECTS.map((project, index) => {
-              // Inverse z-index so top card is on top
-              const zIndex = totalCards - index;
+              const isCurrent = index === currentIndex;
+              const isPast = index < currentIndex;
 
               return (
                 <div
                   key={project.id}
-                  ref={(el) => (cardsRef.current[index] = el)}
                   style={{ 
-                    zIndex,
-                    transformStyle: 'preserve-3d'
+                    zIndex: isCurrent ? 30 : isPast ? 10 : 20,
+                    transform: isCurrent
+                      ? 'translate3d(0, 0, 0) rotateX(0deg) scale(1)'
+                      : isPast
+                      ? 'translate3d(0, 75px, 0) rotateX(20deg) scale(0.92)'
+                      : 'translate3d(0, -45px, 0) rotateX(-16deg) scale(0.94)',
+                    opacity: isCurrent ? 1 : 0,
+                    visibility: Math.abs(index - currentIndex) <= 1 ? 'visible' : 'hidden',
+                    pointerEvents: isCurrent ? 'auto' : 'none',
+                    transition: 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease-out',
+                    willChange: 'transform, opacity',
+                    backfaceVisibility: 'hidden'
                   }}
-                  className="absolute inset-0 w-full h-full rounded-2xl sm:rounded-3xl bg-[#131318] border border-white/[0.14] p-5 sm:p-7 md:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.95)] flex flex-col justify-between overflow-hidden will-change-transform"
+                  className="absolute inset-0 w-full h-full rounded-2xl sm:rounded-3xl bg-[#131318] border border-white/[0.14] p-5 sm:p-7 md:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.95)] flex flex-col justify-between overflow-hidden"
                 >
                   {/* Subtle Background Radial Ambient Light */}
                   <div 
@@ -361,7 +272,7 @@ export function PortfolioStack() {
                   <div className="relative z-10 pt-3 sm:pt-4 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-3">
                     <button
                       onClick={() => setActiveProject(project)}
-                      className="px-4 sm:px-5 py-2 rounded-full bg-[#CCFF00] text-[#09090B] font-semibold text-[11px] tracking-wider uppercase font-mono hover:bg-[#D4FF3F] transition-all hover:scale-105 inline-flex items-center gap-1.5 shadow-lg"
+                      className="px-4 sm:px-5 py-2 rounded-full bg-[#CCFF00] text-[#09090B] font-semibold text-[11px] tracking-wider uppercase font-mono hover:bg-[#D4FF3F] transition-all hover:scale-105 inline-flex items-center gap-1.5 shadow-lg cursor-pointer"
                     >
                       <span>OPEN CASE STUDY</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />
@@ -399,7 +310,7 @@ export function PortfolioStack() {
         {/* Scroll Spine Hint */}
         <div className="mt-3 sm:mt-4 flex items-center justify-center gap-2 text-[11px] font-mono text-zinc-400">
           <ArrowDown className="w-3.5 h-3.5 text-[#CCFF00] animate-bounce" />
-          <span>SCROLL DOWN — CARDS ROTATE AND GO DOWN ONE BY ONE ALONG THE SPINAL RAIL</span>
+          <span>USE CONTROLS, PILLS, ARROW KEYS OR MOUSE WHEEL TO DESCEND THROUGH PROJECTS</span>
         </div>
       </div>
 
@@ -413,128 +324,116 @@ export function PortfolioStack() {
             {/* Close Button */}
             <button
               onClick={() => setActiveProject(null)}
-              className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/[0.06] hover:bg-white/[0.12] flex items-center justify-center text-white/80 hover:text-white transition-colors"
+              className="absolute top-6 right-6 p-2 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-zinc-400 hover:text-white transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
 
-            {/* Header */}
-            <div className="flex items-center gap-3 mb-3">
-              <span className="text-xs font-mono text-[#CCFF00] font-semibold">
-                PROJECT {activeProject.projectNumber} // SPECIFICATION
-              </span>
-              <span className="text-xs font-mono px-2.5 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[#9CA3AF] uppercase">
-                {activeProject.category}
-              </span>
+            {/* Modal Header */}
+            <div className="border-b border-white/[0.08] pb-6 mb-6">
+              <div className="flex items-center gap-2.5 mb-2">
+                <span className="text-xs font-mono text-[#CCFF00] font-bold">
+                  PROJECT {activeProject.projectNumber} // SPECIFICATION
+                </span>
+                <span className="text-xs font-mono px-3 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-zinc-300 uppercase">
+                  {activeProject.category}
+                </span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                {activeProject.title}
+              </h2>
+              <p className="text-sm text-[#CCFF00] font-mono mt-1">
+                {activeProject.tagline}
+              </p>
             </div>
 
-            <h3 className="text-2xl sm:text-4xl font-bold tracking-tight mb-2">
-              {activeProject.title}
-            </h3>
-            <p className="text-sm font-mono text-[#CCFF00] mb-8">
-              {activeProject.tagline}
-            </p>
+            {/* Architecture Highlights */}
+            <div className="mb-6">
+              <h4 className="text-xs font-mono uppercase tracking-widest text-[#CCFF00] mb-3">
+                Key Architectural Highlights
+              </h4>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {activeProject.architectureHighlights.map((arch, aIdx) => (
+                  <div key={aIdx} className="p-3 rounded-xl bg-black/40 border border-white/[0.06]">
+                    <span className="text-[10px] font-mono text-zinc-500 block mb-1">SPEC 0{aIdx + 1}</span>
+                    <span className="text-xs text-zinc-200 font-light block leading-relaxed">{arch}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-            {/* The Problem & The Solution Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/[0.08]">
-                <h4 className="text-xs font-mono uppercase text-red-400 mb-2 flex items-center gap-1.5 font-semibold">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
-                  THE PROBLEM
+            {/* Problem & Solution */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+              <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                <h4 className="text-xs font-mono uppercase text-red-400 mb-2 flex items-center gap-2">
+                  <span>The Engineering Problem</span>
                 </h4>
-                <p className="text-sm text-gray-300 leading-relaxed font-light">
+                <p className="text-xs text-[#9CA3AF] leading-relaxed font-light">
                   {activeProject.problem}
                 </p>
               </div>
-
-              <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/[0.08]">
-                <h4 className="text-xs font-mono uppercase text-[#CCFF00] mb-2 flex items-center gap-1.5 font-semibold">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#CCFF00]" />
-                  THE SOLUTION
+              <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                <h4 className="text-xs font-mono uppercase text-emerald-400 mb-2 flex items-center gap-2">
+                  <span>The TriCodeX Solution</span>
                 </h4>
-                <p className="text-sm text-gray-300 leading-relaxed font-light">
+                <p className="text-xs text-[#9CA3AF] leading-relaxed font-light">
                   {activeProject.solution}
                 </p>
               </div>
             </div>
 
             {/* Key Features */}
-            <div className="mb-8">
-              <h4 className="text-xs font-mono uppercase text-[#9CA3AF] mb-4 tracking-wider">
-                Key Engineering Features
+            <div className="mb-6">
+              <h4 className="text-xs font-mono uppercase tracking-widest text-[#CCFF00] mb-3">
+                Production Capabilities
               </h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {activeProject.features.map((feat, i) => (
-                  <div key={i} className="flex items-start gap-2.5 text-xs text-gray-200">
-                    <CheckCircle2 className="w-4 h-4 text-[#CCFF00] shrink-0 mt-0.5" />
-                    <span>{feat}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Technical Architecture Highlights */}
-            <div className="mb-8 p-5 rounded-2xl bg-[#09090B] border border-white/[0.08]">
-              <h4 className="text-xs font-mono uppercase text-[#CCFF00] mb-3 flex items-center gap-2">
-                <Cpu className="w-4 h-4" />
-                Technical Architecture Highlights
-              </h4>
-              <ul className="space-y-2">
-                {activeProject.architectureHighlights.map((arch, i) => (
-                  <li key={i} className="text-xs text-gray-300 font-mono flex items-center gap-2">
-                    <span className="text-[#CCFF00]">→</span>
-                    <span>{arch}</span>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-zinc-300 font-light">
+                {activeProject.features.map((feature, fIdx) => (
+                  <li key={fIdx} className="flex items-start gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#CCFF00] shrink-0 mt-0.5" />
+                    <span>{feature}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
             {/* Technologies */}
-            <div className="mb-8">
-              <h4 className="text-xs font-mono uppercase text-[#9CA3AF] mb-3 tracking-wider">
+            <div className="mb-6 pt-4 border-t border-white/[0.08]">
+              <h4 className="text-xs font-mono uppercase tracking-widest text-zinc-400 mb-3">
                 Verified Technology Stack
               </h4>
               <div className="flex flex-wrap gap-2">
-                {activeProject.technologies.map((t) => (
-                  <span
-                    key={t}
-                    className="px-3 py-1 rounded-md text-xs bg-white/[0.05] border border-white/[0.1] text-[#F4F4F6] font-mono"
-                  >
-                    {t}
+                {activeProject.technologies.map((tech) => (
+                  <span key={tech} className="px-3 py-1 rounded-md text-xs bg-white/[0.04] border border-white/[0.08] text-zinc-200 font-mono">
+                    {tech}
                   </span>
                 ))}
               </div>
             </div>
 
-            {/* Authors & Actions */}
-            <div className="pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-xs font-mono text-[#9CA3AF]">
-                <span>Verified Authors: </span>
-                <span className="text-white font-medium">{activeProject.contributors.join(', ')}</span>
-              </div>
+            {/* Modal Footer Actions */}
+            <div className="flex items-center justify-between pt-6 border-t border-white/[0.08]">
+              <a
+                href={activeProject.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-2.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-xs font-mono text-white transition-colors inline-flex items-center gap-2 border border-white/[0.1]"
+              >
+                <Github className="w-4 h-4" />
+                <span>View Repository</span>
+              </a>
 
-              <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-                {activeProject.liveUrl && (
-                  <a
-                    href={activeProject.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-white/10 text-white font-semibold text-xs tracking-wider uppercase font-mono hover:bg-white/20 transition-colors inline-flex items-center justify-center gap-2 border border-white/20"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5 text-[#CCFF00]" />
-                    LIVE DEPLOYMENT
-                  </a>
-                )}
+              {activeProject.liveUrl && (
                 <a
-                  href={activeProject.githubUrl}
+                  href={activeProject.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto px-6 py-2.5 rounded-full bg-[#CCFF00] text-[#09090B] font-semibold text-xs tracking-wider uppercase font-mono hover:bg-[#D4FF3F] transition-colors inline-flex items-center justify-center gap-2"
+                  className="px-6 py-2.5 rounded-full bg-[#CCFF00] text-[#09090B] font-semibold text-xs font-mono tracking-wider uppercase hover:bg-[#D4FF3F] transition-all hover:scale-105 inline-flex items-center gap-2 shadow-lg"
                 >
-                  <Github className="w-4 h-4" />
-                  VIEW ON GITHUB
+                  <span>Launch Live Platform</span>
+                  <ExternalLink className="w-4 h-4" />
                 </a>
-              </div>
+              )}
             </div>
           </div>
         </div>
