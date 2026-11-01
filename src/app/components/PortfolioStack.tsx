@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { TOP_PROJECTS, Project } from '../data/projects';
 import { 
   Github, 
@@ -12,26 +14,138 @@ import {
   ArrowDown
 } from 'lucide-react';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export function PortfolioStack() {
   const containerRef = useRef<HTMLElement | null>(null);
+  const deckRef = useRef<HTMLDivElement | null>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const scrollTriggerInstanceRef = useRef<ScrollTrigger | null>(null);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const totalCards = TOP_PROJECTS.length; // 10 verified projects
-  const isThrottledRef = useRef(false);
 
-  // Jump smoothly to a specific project on the spine
+  // Setup GSAP Pinned ScrollTrigger: 3D Spinal Rotation descending down one by one
+  useEffect(() => {
+    const cards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
+    if (cards.length < 2 || !containerRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // 1. Initial State: Card 0 is active in center; cards 1..9 are coiled above
+      gsap.set(cards[0], {
+        yPercent: 0,
+        rotateX: 0,
+        rotateY: 0,
+        rotateZ: 0,
+        scale: 1,
+        autoAlpha: 1,
+        zIndex: 30,
+        transformPerspective: 1400
+      });
+
+      for (let i = 1; i < cards.length; i++) {
+        gsap.set(cards[i], {
+          yPercent: -25,
+          rotateX: -14,
+          rotateY: 0,
+          rotateZ: 0,
+          scale: 0.94,
+          autoAlpha: 0,
+          zIndex: 20,
+          transformPerspective: 1400
+        });
+      }
+
+      // 2. Timeline with ScrollTrigger pinning
+      // Total scroll distance is crisp and responsive (~550px per card step)
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: `+=${(totalCards - 1) * 550}`,
+          pin: true,
+          scrub: 0.5,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            const step = Math.min(
+              totalCards - 1,
+              Math.round(self.progress * (totalCards - 1))
+            );
+            setCurrentIndex(step);
+          }
+        }
+      });
+
+      scrollTriggerInstanceRef.current = tl.scrollTrigger as ScrollTrigger;
+
+      // 3. Chain 3D spinal drop transitions between consecutive cards
+      for (let i = 0; i < cards.length - 1; i++) {
+        const currentCard = cards[i];
+        const nextCard = cards[i + 1];
+        const stepLabel = `step-${i}`;
+
+        // Current card rotates along spinal axis and drops downwards
+        tl.to(
+          currentCard,
+          {
+            yPercent: 110,
+            rotateX: 20,
+            rotateZ: -4,
+            scale: 0.9,
+            autoAlpha: 0,
+            duration: 1,
+            ease: 'power1.inOut'
+          },
+          stepLabel
+        );
+
+        // Next card rotates down into center foreground
+        tl.to(
+          nextCard,
+          {
+            yPercent: 0,
+            rotateX: 0,
+            rotateZ: 0,
+            scale: 1,
+            autoAlpha: 1,
+            duration: 1,
+            ease: 'power1.inOut'
+          },
+          stepLabel
+        );
+      }
+    }, containerRef);
+
+    return () => {
+      ctx.revert();
+      scrollTriggerInstanceRef.current = null;
+    };
+  }, [totalCards]);
+
+  // Jump smoothly to a specific project on the pinned spine
   const jumpTo = useCallback((targetIdx: number) => {
     const validIdx = Math.max(0, Math.min(totalCards - 1, targetIdx));
-    setCurrentIndex(validIdx);
+    if (scrollTriggerInstanceRef.current) {
+      const st = scrollTriggerInstanceRef.current;
+      const targetScroll = st.start + (validIdx / (totalCards - 1)) * (st.end - st.start);
+      window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+    } else {
+      setCurrentIndex(validIdx);
+    }
   }, [totalCards]);
 
   const handleNext = useCallback(() => {
-    setCurrentIndex(prev => Math.min(totalCards - 1, prev + 1));
-  }, [totalCards]);
+    if (currentIndex < totalCards - 1) {
+      jumpTo(currentIndex + 1);
+    }
+  }, [currentIndex, totalCards, jumpTo]);
 
   const handlePrev = useCallback(() => {
-    setCurrentIndex(prev => Math.max(0, prev - 1));
-  }, []);
+    if (currentIndex > 0) {
+      jumpTo(currentIndex - 1);
+    }
+  }, [currentIndex, jumpTo]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -43,21 +157,6 @@ export function PortfolioStack() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleNext, handlePrev]);
-
-  // High-performance trackpad/mouse wheel gesture on the deck
-  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-    if (isThrottledRef.current) return;
-
-    if (e.deltaY > 25 && currentIndex < totalCards - 1) {
-      isThrottledRef.current = true;
-      handleNext();
-      setTimeout(() => { isThrottledRef.current = false; }, 360);
-    } else if (e.deltaY < -25 && currentIndex > 0) {
-      isThrottledRef.current = true;
-      handlePrev();
-      setTimeout(() => { isThrottledRef.current = false; }, 360);
-    }
-  };
 
   return (
     <section 
@@ -91,7 +190,7 @@ export function PortfolioStack() {
               <button
                 onClick={handlePrev}
                 disabled={currentIndex === 0}
-                className="w-8 h-8 rounded-full bg-[#15151A] border border-white/[0.12] hover:border-[#CCFF00] hover:text-[#CCFF00] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center text-white/80 transition-all shadow-lg active:scale-95"
+                className="w-8 h-8 rounded-full bg-[#15151A] border border-white/[0.12] hover:border-[#CCFF00] hover:text-[#CCFF00] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center text-white/80 transition-all shadow-lg active:scale-95 cursor-pointer"
                 title="Rotate to Previous Project"
               >
                 <ChevronUp className="w-4 h-4" />
@@ -99,7 +198,7 @@ export function PortfolioStack() {
               <button
                 onClick={handleNext}
                 disabled={currentIndex === totalCards - 1}
-                className="w-8 h-8 rounded-full bg-[#15151A] border border-white/[0.12] hover:border-[#CCFF00] hover:text-[#CCFF00] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center text-white/80 transition-all shadow-lg active:scale-95"
+                className="w-8 h-8 rounded-full bg-[#15151A] border border-white/[0.12] hover:border-[#CCFF00] hover:text-[#CCFF00] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center text-white/80 transition-all shadow-lg active:scale-95 cursor-pointer"
                 title="Rotate to Next Project"
               >
                 <ChevronDown className="w-4 h-4" />
@@ -163,35 +262,19 @@ export function PortfolioStack() {
 
           {/* RIGHT: 3D SPINAL ROTATING CARD DECK */}
           <div 
-            onWheel={handleWheel}
-            className="col-span-12 lg:col-span-11 relative w-full h-[460px] sm:h-[480px] rounded-2xl sm:rounded-3xl cursor-default"
+            ref={deckRef}
+            className="col-span-12 lg:col-span-11 relative w-full h-[460px] sm:h-[480px] rounded-2xl sm:rounded-3xl"
             style={{ 
               perspective: '1400px',
               transformStyle: 'preserve-3d'
             }}
           >
             {TOP_PROJECTS.map((project, index) => {
-              const isCurrent = index === currentIndex;
-              const isPast = index < currentIndex;
-
               return (
                 <div
                   key={project.id}
-                  style={{ 
-                    zIndex: isCurrent ? 30 : isPast ? 10 : 20,
-                    transform: isCurrent
-                      ? 'translate3d(0, 0, 0) rotateX(0deg) scale(1)'
-                      : isPast
-                      ? 'translate3d(0, 75px, 0) rotateX(20deg) scale(0.92)'
-                      : 'translate3d(0, -45px, 0) rotateX(-16deg) scale(0.94)',
-                    opacity: isCurrent ? 1 : 0,
-                    visibility: Math.abs(index - currentIndex) <= 1 ? 'visible' : 'hidden',
-                    pointerEvents: isCurrent ? 'auto' : 'none',
-                    transition: 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease-out',
-                    willChange: 'transform, opacity',
-                    backfaceVisibility: 'hidden'
-                  }}
-                  className="absolute inset-0 w-full h-full rounded-2xl sm:rounded-3xl bg-[#131318] border border-white/[0.14] p-5 sm:p-7 md:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.95)] flex flex-col justify-between overflow-hidden"
+                  ref={(el) => (cardsRef.current[index] = el)}
+                  className="absolute inset-0 w-full h-full rounded-2xl sm:rounded-3xl bg-[#131318] border border-white/[0.14] p-5 sm:p-7 md:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.95)] flex flex-col justify-between overflow-hidden will-change-transform"
                 >
                   {/* Subtle Background Radial Ambient Light */}
                   <div 
@@ -310,7 +393,7 @@ export function PortfolioStack() {
         {/* Scroll Spine Hint */}
         <div className="mt-3 sm:mt-4 flex items-center justify-center gap-2 text-[11px] font-mono text-zinc-400">
           <ArrowDown className="w-3.5 h-3.5 text-[#CCFF00] animate-bounce" />
-          <span>USE CONTROLS, PILLS, ARROW KEYS OR MOUSE WHEEL TO DESCEND THROUGH PROJECTS</span>
+          <span>SCROLL DOWN — CARDS ROTATE AND DESCEND ONE BY ONE ALONG THE 3D SPINAL RAIL</span>
         </div>
       </div>
 
@@ -324,7 +407,7 @@ export function PortfolioStack() {
             {/* Close Button */}
             <button
               onClick={() => setActiveProject(null)}
-              className="absolute top-6 right-6 p-2 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-zinc-400 hover:text-white transition-colors"
+              className="absolute top-6 right-6 p-2 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-zinc-400 hover:text-white transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
