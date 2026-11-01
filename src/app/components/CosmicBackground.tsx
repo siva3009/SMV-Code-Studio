@@ -14,7 +14,7 @@ export function CosmicBackground() {
 
   // Periodically spawn shooting stars one by one from random locations and angles
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
     const spawnStar = () => {
       // Random starting coordinates across top & mid sections of viewport
@@ -34,17 +34,19 @@ export function CosmicBackground() {
       });
 
       // Clear star after streak animation finishes, and schedule the next shooting star
-      const nextDelay = 3000 + Math.random() * 4500; // Next star fires 3 to 7.5 seconds later
+      const nextDelay = 2500 + Math.random() * 4000; // Next star fires 2.5 to 6.5 seconds later
       timeoutId = setTimeout(() => {
         setActiveStar(null);
-        timeoutId = setTimeout(spawnStar, 600);
+        timeoutId = setTimeout(spawnStar, nextDelay);
       }, speed * 1000 + 400);
     };
 
     // Initial shooting star spawns 1.5 seconds after load
     timeoutId = setTimeout(spawnStar, 1500);
 
-    return () => clearTimeout(timeoutId);
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
   }, []);
 
   return (

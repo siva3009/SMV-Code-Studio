@@ -273,7 +273,7 @@ export function PortfolioStack() {
               return (
                 <div
                   key={project.id}
-                  ref={(el) => (cardsRef.current[index] = el)}
+                  ref={(el) => { cardsRef.current[index] = el; }}
                   className="absolute inset-0 w-full h-full rounded-2xl sm:rounded-3xl bg-[#131318] border border-white/[0.14] p-5 sm:p-7 md:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.95)] flex flex-col justify-between overflow-hidden will-change-transform"
                 >
                   {/* Subtle Background Radial Ambient Light */}
